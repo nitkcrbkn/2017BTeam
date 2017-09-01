@@ -38,6 +38,9 @@ int appInit(void);
 /*竿展開機構*/
 #define ROD_AB_0 (1<<0)
 #define ROD_AB_1 (1<<1)
+
+#define ROD_AB_MAX_COUNT 300
+
 /*プレシルスミサイル*/
 #define MISSILE_AB_0 (1<<0)
 #define MISSILE_AB_1 (1<<1)
