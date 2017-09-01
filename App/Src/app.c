@@ -107,13 +107,21 @@ static int LEDSystem(void){
 static
 int rodAB(void){
 
+  static int open_count = ROD_AB_MAX_COUNT;
+   
   if((__RC_ISPRESSED_CIRCLE(g_rc_data)) && (__RC_ISPRESSED_TRIANGLE(g_rc_data))){
+    open_count = 0;
+  }
+
+  if(ROD_AB_MAX_COUNT > open_count){
     g_ab_h[DRIVER_AB_0].dat |= ROD_AB_0;
     g_ab_h[DRIVER_AB_0].dat |= ROD_AB_1;
+    open_count++;
   }else{
     g_ab_h[DRIVER_AB_0].dat &= ~ROD_AB_0;
     g_ab_h[DRIVER_AB_0].dat &= ~ROD_AB_1;
   }
+  
   return EXIT_SUCCESS;
 }
   
