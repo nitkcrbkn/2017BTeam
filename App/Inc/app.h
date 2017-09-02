@@ -12,7 +12,7 @@ int appInit(void);
 
 #define DD_USE_ENCODER1 0
 #define DD_USE_ENCODER2 0
-#define DD_NUM_OF_SV 1
+#define DD_NUM_OF_SV 0
 
 //右側のリミットスイッチが押されているか
 #define _SW_RIGHT_LIMIT_GPIOxID GPIOCID
@@ -30,7 +30,7 @@ int appInit(void);
 
 #define MECHA1_MD0 0 //駆動左側のモータ
 #define MECHA1_MD1 1 //駆動右側のモータ
-#define MECHA1_MD2 2 //アームを降る機構
+#define MECHA1_MD2 2 //竿を降る機構
 //#define MECHA1_MD3 3
 
 #define CENTRAL_THRESHOLD 4
