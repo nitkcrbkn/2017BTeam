@@ -20,9 +20,6 @@ static
 int rodAB(void);
 
 static
-int missileAB(void);
-
-static
 int rotationright(void);
 
 static
@@ -65,12 +62,7 @@ int appTask(void){
   if(ret){
     return ret;
   }
-  
-  ret = missileAB();
-  if(ret){
-    return ret;
-  }
-  
+    
   ret = LEDSystem();
   if(ret){
     return ret;
@@ -103,7 +95,7 @@ static int LEDSystem(void){
   return EXIT_SUCCESS;
 }
 
-/*ティラルス・プレシルス竿展開機構*/
+/*竿展開機構*/
 static
 int rodAB(void){
 
@@ -125,95 +117,6 @@ int rodAB(void){
   return EXIT_SUCCESS;
 }
   
-/*プレシルスミサイル*/
-
-static
-int missileAB(void){
-
-  /*全弾*/  
-  if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_L1(g_rc_data)) && (__RC_ISPRESSED_UP(g_rc_data))){
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_0;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_1;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_2;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_3;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_4;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_5;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_6;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_7;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_8;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_9;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_10;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_11;
-    g_ab_h[DRIVER_AB_3].dat |= MISSILE_AB_12;
-    g_ab_h[DRIVER_AB_3].dat |= MISSILE_AB_13;
-  }
-
-  /*21弾ミサイル*/
-  else if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_CROSS(g_rc_data))){
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_0;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_1;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_2;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_3;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_4;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_5;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_6;
-  }
-  
-  /*19弾ミサイル*/
-  else if((__RC_ISPRESSED_L1(g_rc_data)) && (__RC_ISPRESSED_CROSS(g_rc_data))){
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_7;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_8;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_9;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_10;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_11;
-    g_ab_h[DRIVER_AB_3].dat |= MISSILE_AB_12;
-    g_ab_h[DRIVER_AB_3].dat |= MISSILE_AB_13;
-  } 
-
-  /*9弾ミサイル*/
-  else if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_CIRCLE(g_rc_data))){
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_0;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_1;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_2;
-  }
-  else if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_TRIANGLE(g_rc_data))){
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_3;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_4;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_5;
-  }
-  else if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_SQARE(g_rc_data))){
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_6;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_7;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_8;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_9;
-  }
-  else if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_CIRCLE(g_rc_data))){
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_10;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_11;
-    g_ab_h[DRIVER_AB_3].dat |= MISSILE_AB_12;
-    g_ab_h[DRIVER_AB_3].dat |= MISSILE_AB_13;
-  }
-  
-  else{
-    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_0;
-    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_1;
-    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_2;
-    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_3;
-    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_4;
-    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_5;
-    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_6;
-    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_7;
-    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_8;
-    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_9;
-    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_10;
-    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_11;
-    g_ab_h[DRIVER_AB_3].dat &= ~MISSILE_AB_12;
-    g_ab_h[DRIVER_AB_3].dat &= ~MISSILE_AB_13;
-  }
-  
-  return EXIT_SUCCESS;
-}
-
 /*プライベート 足回りシステム*/
 static
 int suspensionSystem(void){
@@ -292,7 +195,7 @@ int suspensionSystem(void){
 
 }
 
-/*ティラルス竿回転機構右*/
+/*竿回転機構右*/
 
 static 
 int rotationright(void){
@@ -319,7 +222,7 @@ int rotationright(void){
   return EXIT_SUCCESS;
 }    
 
-/*ティラルス竿回転機構左*/
+/*竿回転機構左*/
 
 static 
 int rotationleft(void){

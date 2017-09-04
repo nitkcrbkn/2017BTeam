@@ -34,15 +34,6 @@ DD_ABHand_t g_ab_h[DD_NUM_OF_AB] = {
   { .add = 0x20, /* address */
     .dat = 0x00, /* data */
   },              
-  { .add = 0x21, /* adress */
-    .dat = 0x00, /* data */
-  },
-  { .add = 0x22, /* adress */
-    .dat = 0x00, /* data */
-  },
-  { .add = 0x23, /* adress */
-    .dat = 0x00, /* data */
-  },
 };
 #endif
 #if DD_NUM_OF_SV
