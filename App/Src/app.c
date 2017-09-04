@@ -228,7 +228,6 @@ int suspensionSystem(void){
   }
 
   
-
   /*for each motor*/
   for(i=0;i<num_of_motor;i++){
     /*それぞれの差分*/
@@ -254,21 +253,6 @@ int suspensionSystem(void){
     }
     m *= 95;
     trapezoidCtrl(m,&g_md_h[idx],&tc);
-    /*これは中央か?*/
-    //  if(m==0){
-    //  g_md_h[idx].mode = D_MMOD_FREE;
-    //  g_md_h[idx].duty = 0;
-    // }else{
-    // if(m > 0){
-    /*前後の向き判定*/
-    //	g_md_h[idx].mode = D_MMOD_FORWARD;
-    // }
-    // else{
-    //	g_md_h[idx].mode = D_MMOD_BACKWARD;
-    // }
-    /*絶対値を取りDutyに格納*/
-    // g_md_h[idx].duty = abs(m) * MD_GAIN;
-    // }
   }
 
   return EXIT_SUCCESS;
