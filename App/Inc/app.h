@@ -2,7 +2,7 @@
 #define __APP_H
 
 /*NO Device mode*/
-#define _NO_DEVICE 0
+#define _NO_DEVICE 1
 
 int appTask(void);
 int appInit(void);
@@ -32,9 +32,7 @@ int appInit(void);
 #define SR_SIX 2.4494 //ルート6
 
 #define DRIVER_AB_0 0
-#define DRIVER_AB_1 1
-#define DRIVER_AB_2 2
-#define DRIVER_AB_3 3
+
 /*竿展開機構*/
 #define ROD_AB_0 (1<<0)
 #define ROD_AB_1 (1<<1)
