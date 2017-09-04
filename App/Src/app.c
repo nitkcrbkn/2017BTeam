@@ -22,12 +22,6 @@ int rodAB(void);
 static
 int missileAB(void);
 
-static
-int rotationright(void);
-
-static
-int rotationleft(void);
-
 /*メモ
  *g_ab_h...ABのハンドラ
  *g_md_h...MDのハンドラ
@@ -75,17 +69,7 @@ int appTask(void){
   if(ret){
     return ret;
   }
-  
-  ret = rotationright();
-  if(ret){
-    return ret;
-  }
-  
-  ret = rotationleft();
-  if(ret){
-    return ret;
-  }
-  
+    
   return EXIT_SUCCESS;
 }
 
@@ -291,55 +275,4 @@ int suspensionSystem(void){
 
 }
 
-/*ティラルス竿回転機構右*/
-
-static 
-int rotationright(void){
-  
-  const tc_const_t tc ={
-    .inc_con = 500,//DUTY上限時の傾き
-    .dec_con = 500,//　　下限時
-  };
-  int target;
-  
-    
-  unsigned int idx;/*インデックス*/
-  
-  idx = MECHA1_MD4;
-  if((__RC_ISPRESSED_R1(g_rc_data))){
-    target = 500;
-  }else if((__RC_ISPRESSED_R2(g_rc_data))){
-    target = -500;
-  }else{
-    target = 0;
-  }
-  trapezoidCtrl(target,&g_md_h[idx],&tc);
-
-  return EXIT_SUCCESS;
-}    
-
-/*ティラルス竿回転機構左*/
-
-static 
-int rotationleft(void){
-  
-  const tc_const_t tc ={
-    .inc_con = 500, //DUTY上限時の傾き
-    .dec_con = 500, //　　下限時
-  };
-  int target;
-  unsigned int idx;
-
-  idx = MECHA1_MD5;
-  if((__RC_ISPRESSED_L1(g_rc_data))){
-    target = 500;
-  }else if((__RC_ISPRESSED_L2(g_rc_data))){
-    target = -500;
-  }else{
-    target = 0;
-  }
-  trapezoidCtrl(target,&g_md_h[idx],&tc);
-
-  return EXIT_SUCCESS;
-}
 

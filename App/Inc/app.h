@@ -7,7 +7,7 @@
 int appTask(void);
 int appInit(void);
 
-#define DD_NUM_OF_MD 5
+#define DD_NUM_OF_MD 3
 #define DD_NUM_OF_AB 4
 
 #define DD_USE_ENCODER1 0
@@ -21,9 +21,6 @@ int appInit(void);
 #define MECHA1_MD1 0
 #define MECHA1_MD2 1
 #define MECHA1_MD3 2
-/*ティラルス・プレシルス竿回転機構*/
-#define MECHA1_MD4 3
-#define MECHA1_MD5 4
 
 #define CENTRAL_THRESHOLD 4
 
