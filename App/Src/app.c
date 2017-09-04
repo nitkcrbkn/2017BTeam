@@ -165,30 +165,11 @@ int suspensionSystem(void){
       idx = MECHA1_MD3;
       m = 1*1/SR_TWO*x + 1*1/SR_SIX*y - 1*1/SR_THREE*w;
       break;
-      // case 3:
-      // idx = MECHA1_MD4;
-      // m = -x+y-w;
-      // break;
     default:
       return EXIT_FAILURE;
     }
     m *= 95;
     trapezoidCtrl(m,&g_md_h[idx],&tc);
-    /*これは中央か?*/
-    //  if(m==0){
-    //  g_md_h[idx].mode = D_MMOD_FREE;
-    //  g_md_h[idx].duty = 0;
-    // }else{
-    // if(m > 0){
-    /*前後の向き判定*/
-    //	g_md_h[idx].mode = D_MMOD_FORWARD;
-    // }
-    // else{
-    //	g_md_h[idx].mode = D_MMOD_BACKWARD;
-    // }
-    /*絶対値を取りDutyに格納*/
-    // g_md_h[idx].duty = abs(m) * MD_GAIN;
-    // }
   }
 
   return EXIT_SUCCESS;
@@ -204,9 +185,8 @@ int rotationright(void){
     .inc_con = 500,//DUTY上限時の傾き
     .dec_con = 500,//　　下限時
   };
-  int target;
-  
-    
+
+  int target;    
   unsigned int idx;/*インデックス*/
   
   idx = MECHA1_MD4;
@@ -231,6 +211,7 @@ int rotationleft(void){
     .inc_con = 500, //DUTY上限時の傾き
     .dec_con = 500, //　　下限時
   };
+
   int target;
   unsigned int idx;
 
