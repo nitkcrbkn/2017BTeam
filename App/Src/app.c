@@ -97,12 +97,12 @@ int rodAB(void){
   }
 
   if(ROD_AB_MAX_COUNT > open_count){
-    g_ab_h[DRIVER_AB_0].dat |= ROD_AB_0;
-    g_ab_h[DRIVER_AB_0].dat |= ROD_AB_1;
+    g_ab_h[DRIVER_AB].dat |= ROD_AB_0;
+    g_ab_h[DRIVER_AB].dat |= ROD_AB_1;
     open_count++;
   }else{
-    g_ab_h[DRIVER_AB_0].dat &= ~ROD_AB_0;
-    g_ab_h[DRIVER_AB_0].dat &= ~ROD_AB_1;
+    g_ab_h[DRIVER_AB].dat &= ~ROD_AB_0;
+    g_ab_h[DRIVER_AB].dat &= ~ROD_AB_1;
   }
 
   return EXIT_SUCCESS;
@@ -112,86 +112,19 @@ int rodAB(void){
 
 static
 int missileAB(void){
-
-  /*全弾*/  
-  if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_L1(g_rc_data)) && (__RC_ISPRESSED_UP(g_rc_data))){
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_0;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_1;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_2;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_3;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_4;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_5;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_6;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_7;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_8;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_9;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_10;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_11;
-    g_ab_h[DRIVER_AB_3].dat |= MISSILE_AB_12;
-    g_ab_h[DRIVER_AB_3].dat |= MISSILE_AB_13;
+   
+  if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_CROSS(g_rc_data))){
+    g_ab_h[DRIVER_AB].dat |= MISSILE_AB_0;
   }
-
-  /*21弾ミサイル*/
-  else if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_CROSS(g_rc_data))){
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_0;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_1;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_2;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_3;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_4;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_5;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_6;
-  }
-  
-  /*19弾ミサイル*/
-  else if((__RC_ISPRESSED_L1(g_rc_data)) && (__RC_ISPRESSED_CROSS(g_rc_data))){
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_7;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_8;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_9;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_10;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_11;
-    g_ab_h[DRIVER_AB_3].dat |= MISSILE_AB_12;
-    g_ab_h[DRIVER_AB_3].dat |= MISSILE_AB_13;
-  } 
-
-  /*9弾ミサイル*/
-  else if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_CIRCLE(g_rc_data))){
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_0;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_1;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_2;
-  }
-  else if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_TRIANGLE(g_rc_data))){
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_3;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_4;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_5;
-  }
-  else if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_SQARE(g_rc_data))){
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_6;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_7;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_8;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_9;
-  }
-  else if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_CIRCLE(g_rc_data))){
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_10;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_11;
-    g_ab_h[DRIVER_AB_3].dat |= MISSILE_AB_12;
-    g_ab_h[DRIVER_AB_3].dat |= MISSILE_AB_13;
-  }
-  
   else{
-    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_0;
-    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_1;
-    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_2;
-    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_3;
-    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_4;
-    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_5;
-    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_6;
-    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_7;
-    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_8;
-    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_9;
-    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_10;
-    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_11;
-    g_ab_h[DRIVER_AB_3].dat &= ~MISSILE_AB_12;
-    g_ab_h[DRIVER_AB_3].dat &= ~MISSILE_AB_13;
+    g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_0;
+  }
+  
+  if((__RC_ISPRESSED_L1(g_rc_data)) && (__RC_ISPRESSED_SQARE(g_rc_data))){
+      g_ab_h[DRIVER_AB].dat |= MISSILE_AB_1;
+  }
+  else{
+    g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_1;
   }
   
   return EXIT_SUCCESS;
