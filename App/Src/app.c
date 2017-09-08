@@ -25,6 +25,15 @@ int rotationright(void);
 static
 int rotationleft(void);
 
+static
+int changeOpeMode(void);
+
+static
+ope_mode_t g_ope_mode = OPE_MODE_N;
+
+static
+int TRANSAMSystem(void);
+
 /*メモ
  *g_ab_h...ABのハンドラ
  *g_md_h...MDのハンドラ
@@ -52,12 +61,28 @@ int appTask(void){
   }
   
   /*それぞれの機構ごとに処理をする*/
-  /*途中必ず定数回で終了すること。*/
-  ret = suspensionSystem();
+  /*途中必ず定数回で終了ること。*/
+  switch(g_ope_mode){
+  case OPE_MODE_N:
+    ret = suspensionSystem();
+    if(ret){
+      return ret;
+    }
+    break;
+    
+  case OPE_MODE_T:
+    ret = TRANSAMSystem();
+    if(ret){
+      return ret;
+    }
+    break;
+  }
+
+  ret = changeOpeMode();
   if(ret){
     return ret;
   }
-  
+
   ret = rodAB();
   if(ret){
     return ret;
@@ -226,5 +251,110 @@ int rotationleft(void){
   trapezoidCtrl(target,&g_md_h[idx],&tc);
 
   return EXIT_SUCCESS;
+}
+
+
+static
+int changeOpeMode(void){
+
+  if(__RC_ISPRESSED_UP(g_rc_data)){
+    g_ope_mode = OPE_MODE_N;
+  }
+  else if(__RC_ISPRESSED_DOWN(g_rc_data)){
+    g_ope_mode = OPE_MODE_T;
+  }
+  
+  return EXIT_SUCCESS;
+}
+
+
+static
+int TRANSAMSystem(void){
+  const tc_const_t tc ={
+    .inc_con = 300,//DUTY上限時の傾き
+    .dec_con = 400//　　下限時
+  };
+  const int num_of_motor = 3;/*モータの個数*/
+  unsigned int idx;/*インデックス*/
+  int m,x,y,w,adjust;
+  int i;
+
+  if(abs(DD_RCGetLX(g_rc_data))<CENTRAL_THRESHOLD){
+    y = 0;
+  }else{
+    y = DD_RCGetLX(g_rc_data);
+  }
+
+  if(abs(DD_RCGetLY(g_rc_data))<CENTRAL_THRESHOLD){
+    x = 0;
+  }else{
+    x = -DD_RCGetLY(g_rc_data);
+  }
+
+  if(abs(DD_RCGetRX(g_rc_data))<CENTRAL_THRESHOLD){
+    w = 0;
+  }else{
+    w = -DD_RCGetRX(g_rc_data);
+  }
+  
+  
+  /*for each motor*/
+  for(i=0;i<num_of_motor;i++){
+    /*それぞれの差分*/
+    switch(i){
+    case 0:
+      idx = MECHA1_MD1;
+      m = -2*1/SR_SIX*y - 1*1/SR_THREE*w;
+      m *= 95;
+      if(abs(m) <= 4800){
+	m *= 2;
+      }else if(abs(m) >= 9500){
+	adjust = abs(m) - 9500;
+	if(m > 0){
+	  m -= adjust;
+	}else if(m < 0){
+	  m += adjust;
+	}
+      }
+      break;
+    case 1:
+      idx = MECHA1_MD2;
+      m = -1*1/SR_TWO*x + 1*1/SR_SIX*y - 1*1/SR_THREE*w;
+      m *= 95;
+      if(abs(m) <= 4800){
+	m *= 2;
+      }else if(abs(m) >= 9500){
+	adjust = abs(m) - 9500;
+	if(m > 0){
+	  m -= adjust;
+	}else if(m < 0){
+	  m += adjust;
+	}
+      }
+      break;
+    case 2:
+      idx = MECHA1_MD3;
+      m = 1*1/SR_TWO*x + 1*1/SR_SIX*y - 1*1/SR_THREE*w;
+      m *= 95;
+      if(abs(m) <= 4800){
+	m *= 2;
+      }else if(abs(m) >= 9500){
+	adjust = abs(m) - 9500;
+	if(m > 0){
+	  m -= adjust;
+	}else if(m < 0){
+	  m += adjust;
+	}
+      }
+      break;
+    default:
+      return EXIT_FAILURE;
+    }
+
+    trapezoidCtrl(m,&g_md_h[idx],&tc);
+  }
+
+  return EXIT_SUCCESS;
+
 }
 
