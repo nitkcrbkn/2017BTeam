@@ -36,13 +36,13 @@ typedef enum{
   OPE_MODE_T,
 } ope_mode_t;
 
-#define DRIVER_AB_0 0
+#define DRIVER_AB 0
 
 /*竿展開機構*/
-#define ROD_AB_0 (1<<0)
-#define ROD_AB_1 (1<<1)
+#define ARM_AB_0 (1<<0)
+#define ARM_AB_1 (1<<1)
 
-#define ROD_AB_MAX_COUNT 300
+#define ARM_AB_MAX_COUNT 300
 
 #define MD_GAIN ( DD_MD_MAX_DUTY / DD_RC_ANALOG_MAX/3 )
 

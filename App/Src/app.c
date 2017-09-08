@@ -17,7 +17,7 @@ static
 int LEDSystem(void);
 
 static
-int rodAB(void);
+int armAB(void);
 
 static
 int rotationright(void);
@@ -83,7 +83,7 @@ int appTask(void){
     return ret;
   }
 
-  ret = rodAB();
+  ret = armAB();
   if(ret){
     return ret;
   }
@@ -122,21 +122,21 @@ static int LEDSystem(void){
 
 /*竿展開機構*/
 static
-int rodAB(void){
+int armAB(void){
 
-  static int open_count = ROD_AB_MAX_COUNT;
+  static int open_count = ARM_AB_MAX_COUNT;
    
   if((__RC_ISPRESSED_CIRCLE(g_rc_data)) && (__RC_ISPRESSED_TRIANGLE(g_rc_data))){
     open_count = 0;
   }
 
-  if(ROD_AB_MAX_COUNT > open_count){
-    g_ab_h[DRIVER_AB_0].dat |= ROD_AB_0;
-    g_ab_h[DRIVER_AB_0].dat |= ROD_AB_1;
+  if(ARM_AB_MAX_COUNT > open_count){
+    g_ab_h[DRIVER_AB].dat |= ARM_AB_0;
+    g_ab_h[DRIVER_AB].dat |= ARM_AB_1;
     open_count++;
   }else{
-    g_ab_h[DRIVER_AB_0].dat &= ~ROD_AB_0;
-    g_ab_h[DRIVER_AB_0].dat &= ~ROD_AB_1;
+    g_ab_h[DRIVER_AB].dat &= ~ARM_AB_0;
+    g_ab_h[DRIVER_AB].dat &= ~ARM_AB_1;
   }
   
   return EXIT_SUCCESS;
@@ -216,9 +216,9 @@ int rotationright(void){
   
   idx = MECHA1_MD4;
   if((__RC_ISPRESSED_R1(g_rc_data))){
-    target = 500;
+    target = 2000;
   }else if((__RC_ISPRESSED_R2(g_rc_data))){
-    target = -500;
+    target = -2000;
   }else{
     target = 0;
   }
@@ -242,9 +242,9 @@ int rotationleft(void){
 
   idx = MECHA1_MD5;
   if((__RC_ISPRESSED_L1(g_rc_data))){
-    target = 500;
+    target = 2000;
   }else if((__RC_ISPRESSED_L2(g_rc_data))){
-    target = -500;
+    target = -2000;
   }else{
     target = 0;
   }
