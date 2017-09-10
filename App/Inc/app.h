@@ -15,13 +15,13 @@ int appInit(void);
 #define DD_NUM_OF_SV 1
 
 //右側のリミットスイッチが押されているか
-#define _SW_RIGHT_LIMIT_GPIOxID GPIOCID
-#define _SW_RIGHT_LIMIT_GPIOPIN GPIO_PIN_0
+#define _SW_RIGHT_LIMIT_GPIOxID GPIOBID
+#define _SW_RIGHT_LIMIT_GPIOPIN GPIO_PIN_15
 #define _IS_PRESSED_RIGHT_LIMITSW() ((MW_GPIORead(_SW_RIGHT_LIMIT_GPIOxID,_SW_RIGHT_LIMIT_GPIOPIN)))
 
 //左側のリミットスイッチが押されているか
-#define _SW_LEFT_LIMIT_GPIOxID GPIOBID
-#define _SW_LEFT_LIMIT_GPIOPIN GPIO_PIN_15
+#define _SW_LEFT_LIMIT_GPIOxID GPIOCID
+#define _SW_LEFT_LIMIT_GPIOPIN GPIO_PIN_0
 #define _IS_PRESSED_LEFT_LIMITSW() ((MW_GPIORead(_SW_LEFT_LIMIT_GPIOxID,_SW_LEFT_LIMIT_GPIOPIN)))
 
 #include "DD_RC.h"
@@ -46,6 +46,8 @@ typedef enum{
 #define ON_AB2 (1<<2) //0x04
 #define ON_AB3 (1<<3) //0x08
 #define ON_AB4 (1<<4) //0x10
+
+#define ON_AB_MAX_COUNT 300
 
 #define MD_GAIN ( DD_MD_MAX_DUTY / DD_RC_ANALOG_MAX )
 

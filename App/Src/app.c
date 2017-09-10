@@ -70,7 +70,7 @@ int appTask(void){
     }
     break;
   }
-  
+
   ret = ABSystem();
   if(ret){
     return ret;
@@ -117,7 +117,6 @@ static
 int ABSystem(void){
   int i;
   const int NUM_OF_AB = 5;
-  //const int NUM_OF_AB = 1;
 
   for(i=0; i<NUM_OF_AB; i++) {
     switch(i) {
@@ -163,7 +162,7 @@ int ABSystem(void){
       
     default :
       return EXIT_FAILURE;
-    }   
+    }
   }
   return EXIT_SUCCESS;
 }
@@ -235,32 +234,27 @@ int SwingArm(void){
 
   int target;
   const tc_const_t tc= {
-    .inc_con = 20,  //duty上昇時の傾き
-    .dec_con = 100,  //duty下降時の傾き,一瞬で止まるように設定
+    .inc_con = 1000,  //duty上昇時の傾き
+    .dec_con = 1000,  //duty下降時の傾き
   };
   
   unsigned int idx;//インデックス
-  idx = MECHA1_MD0;
+  idx = MECHA1_MD2;
   target = 0;
   
   if((__RC_ISPRESSED_RIGHT(g_rc_data)) && (_IS_PRESSED_RIGHT_LIMITSW())) {
-    target = 100;
+    target = 4000;
   }
   if((__RC_ISPRESSED_LEFT(g_rc_data)) && (_IS_PRESSED_LEFT_LIMITSW())) {
-    target = -100;
-  }
-  if(!(_IS_PRESSED_RIGHT_LIMITSW()) || !(_IS_PRESSED_LEFT_LIMITSW())) {
-    target = 0;
+    target = -4000;
   }
 
-  /*本番ではこっちを使う
-    if((target > 0) && !(_IS_PRESSED_RIGHT_LIMITSW())) {
+  if((target > 0) && !(_IS_PRESSED_RIGHT_LIMITSW())) {
     target = 0;
-    }
-    if((target < 0) && !(_IS_PRESSED_LEFT_LIMITSW())) {
+  }
+  if((target < 0) && !(_IS_PRESSED_LEFT_LIMITSW())) {
     target = 0;
-    }
-  */
+  }
 
   trapezoidCtrl(target,&g_md_h[idx],&tc);
     
