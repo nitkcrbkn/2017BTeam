@@ -186,7 +186,7 @@ int SpinRod(void){
   int target;
   const tc_const_t tc= {
     .inc_con = 1000,  //duty上昇時の傾き
-    .dec_con = -1000,  //duty下降時の傾き,一瞬で止まるように設定
+    .dec_con = 1000,  //duty下降時の傾き,一瞬で止まるように設定
   };
   
   unsigned int idx;//インデックス
