@@ -193,9 +193,9 @@ int SpinRod(void){
   idx = MECHA1_MD2;
   target = 0;
   
-  if(__RC_ISPRESSED_UP(g_rc_data)) {
+  if(__RC_ISPRESSED_R1(g_rc_data)) {
     target = -8000;
-  } else if(__RC_ISPRESSED_DOWN(g_rc_data)) {
+  } else if(__RC_ISPRESSED_R2(g_rc_data)) {
     target = 8000;
   } else {
     target = 0;
