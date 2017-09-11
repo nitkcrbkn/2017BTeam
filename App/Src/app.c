@@ -194,9 +194,9 @@ int SpinRod(void){
   target = 0;
   
   if(__RC_ISPRESSED_UP(g_rc_data)) {
-    target = 4000;
+    target = -8000;
   } else if(__RC_ISPRESSED_DOWN(g_rc_data)) {
-    target = -4000;
+    target = 8000;
   } else {
     target = 0;
   }
