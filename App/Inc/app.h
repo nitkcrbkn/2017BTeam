@@ -21,7 +21,7 @@ int appInit(void);
 #define MECHA1_MD1 0
 #define MECHA1_MD2 1
 #define MECHA1_MD3 2
-/*竿回転機構*/
+/*アーム回転機構*/
 #define MECHA1_MD4 3
 #define MECHA1_MD5 4
  

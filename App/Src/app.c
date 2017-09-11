@@ -122,7 +122,7 @@ static int LEDSystem(void){
   return EXIT_SUCCESS;
 }
 
-/*竿展開機構*/
+/*アーム展開機構*/
 /*
   static
   int armAB(void){
