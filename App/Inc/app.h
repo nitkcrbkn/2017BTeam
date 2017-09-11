@@ -2,13 +2,13 @@
 #define __APP_H
 
 /*NO Device mode*/
-#define _NO_DEVICE 1
+#define _NO_DEVICE 0
 
 int appTask(void);
 int appInit(void);
 
 #define DD_NUM_OF_MD 5
-#define DD_NUM_OF_AB 1
+#define DD_NUM_OF_AB 0
 
 #define DD_USE_ENCODER1 0
 #define DD_USE_ENCODER2 0
@@ -24,7 +24,7 @@ int appInit(void);
 /*竿回転機構*/
 #define MECHA1_MD4 3
 #define MECHA1_MD5 4
-
+ 
 #define CENTRAL_THRESHOLD 4
 
 #define SR_TWO 1.4142 //ルート2

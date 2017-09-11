@@ -10,15 +10,16 @@
 #include "constManager.h"
 #include "trapezoid_ctrl.h"
 /*suspensionSystem*/
+
 static
 int suspensionSystem(void);
 
 static
 int LEDSystem(void);
-
-static
-int armAB(void);
-
+/*
+  static
+  int armAB(void);
+*/
 static
 int rotationright(void);
 
@@ -62,6 +63,7 @@ int appTask(void){
   
   /*それぞれの機構ごとに処理をする*/
   /*途中必ず定数回で終了ること。*/
+ 
   switch(g_ope_mode){
   case OPE_MODE_N:
     ret = suspensionSystem();
@@ -82,17 +84,17 @@ int appTask(void){
   if(ret){
     return ret;
   }
-
-  ret = armAB();
-  if(ret){
-    return ret;
-  }
-    
+  /* 
+     ret = armAB();
+     if(ret){
+     return ret;
+     }
+  */
   ret = LEDSystem();
   if(ret){
     return ret;
   }
-  
+   
   ret = rotationright();
   if(ret){
     return ret;
@@ -102,7 +104,7 @@ int appTask(void){
   if(ret){
     return ret;
   }
-  
+ 
   return EXIT_SUCCESS;
 }
 
@@ -121,27 +123,28 @@ static int LEDSystem(void){
 }
 
 /*竿展開機構*/
-static
-int armAB(void){
+/*
+  static
+  int armAB(void){
 
   static int open_count = ARM_AB_MAX_COUNT;
    
   if((__RC_ISPRESSED_CIRCLE(g_rc_data)) && (__RC_ISPRESSED_TRIANGLE(g_rc_data))){
-    open_count = 0;
+  open_count = 0;
   }
 
   if(ARM_AB_MAX_COUNT > open_count){
-    g_ab_h[DRIVER_AB].dat |= ARM_AB_0;
-    g_ab_h[DRIVER_AB].dat |= ARM_AB_1;
-    open_count++;
+  g_ab_h[DRIVER_AB].dat |= ARM_AB_0;
+  g_ab_h[DRIVER_AB].dat |= ARM_AB_1;
+  open_count++;
   }else{
-    g_ab_h[DRIVER_AB].dat &= ~ARM_AB_0;
-    g_ab_h[DRIVER_AB].dat &= ~ARM_AB_1;
+  g_ab_h[DRIVER_AB].dat &= ~ARM_AB_0;
+  g_ab_h[DRIVER_AB].dat &= ~ARM_AB_1;
   }
   
   return EXIT_SUCCESS;
-}
-  
+  }
+*/  
 /*プライベート 足回りシステム*/
 static
 int suspensionSystem(void){
@@ -216,9 +219,9 @@ int rotationright(void){
   
   idx = MECHA1_MD4;
   if((__RC_ISPRESSED_R1(g_rc_data))){
-    target = 2000;
+    target = 8000;
   }else if((__RC_ISPRESSED_R2(g_rc_data))){
-    target = -2000;
+    target = -8000;
   }else{
     target = 0;
   }
@@ -242,9 +245,9 @@ int rotationleft(void){
 
   idx = MECHA1_MD5;
   if((__RC_ISPRESSED_L1(g_rc_data))){
-    target = 2000;
+    target = 8000;
   }else if((__RC_ISPRESSED_L2(g_rc_data))){
-    target = -2000;
+    target = -8000;
   }else{
     target = 0;
   }
@@ -297,7 +300,7 @@ int TRANSAMSystem(void){
     w = -DD_RCGetRX(g_rc_data);
   }
   
-  
+
   /*for each motor*/
   for(i=0;i<num_of_motor;i++){
     /*それぞれの差分*/
