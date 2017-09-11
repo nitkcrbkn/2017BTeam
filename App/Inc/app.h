@@ -8,11 +8,11 @@ int appTask(void);
 int appInit(void);
 
 #define DD_NUM_OF_MD 3
-#define DD_NUM_OF_AB 1
+#define DD_NUM_OF_AB 0
 
 #define DD_USE_ENCODER1 0
 #define DD_USE_ENCODER2 0
-#define DD_NUM_OF_SV 1
+#define DD_NUM_OF_SV 0
 
 //右側のリミットスイッチが押されているか
 #define _SW_RIGHT_LIMIT_GPIOxID GPIOBID
