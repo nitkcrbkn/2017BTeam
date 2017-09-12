@@ -267,10 +267,10 @@ int rotationleft(void){
 static
 int changeOpeMode(void){
 
-  if(__RC_ISPRESSED_UP(g_rc_data)){
+  if(__RC_ISPRESSED_CIRCLE(g_rc_data)){
     g_ope_mode = OPE_MODE_N;
   }
-  else if(__RC_ISPRESSED_DOWN(g_rc_data)){
+  else if(__RC_ISPRESSED_CROSS(g_rc_data)){
     g_ope_mode = OPE_MODE_T;
   }
   
