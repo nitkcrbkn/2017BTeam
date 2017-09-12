@@ -218,9 +218,9 @@ int rotationright(void){
   unsigned int idx;/*インデックス*/
   
   idx = MECHA1_MD4;
-  if((__RC_ISPRESSED_R1(g_rc_data))){
+  if((__RC_ISPRESSED_R2(g_rc_data))){
     target = 8000;
-  }else if((__RC_ISPRESSED_R2(g_rc_data))){
+  }else if((__RC_ISPRESSED_R1(g_rc_data))){
     target = -8000;
   }else{
     target = 0;
