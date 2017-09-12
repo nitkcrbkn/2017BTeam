@@ -218,13 +218,17 @@ int rotationright(void){
   unsigned int idx;/*インデックス*/
   
   idx = MECHA1_MD4;
-  if((__RC_ISPRESSED_R2(g_rc_data))){
+
+  if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_R1(g_rc_data))){
+    target = 0;
+  }else if((__RC_ISPRESSED_R2(g_rc_data)) && !(__RC_ISPRESSED_R1(g_rc_data))){
     target = 8000;
-  }else if((__RC_ISPRESSED_R1(g_rc_data))){
+  }else if((__RC_ISPRESSED_R1(g_rc_data)) && !(__RC_ISPRESSED_R2(g_rc_data))){
     target = -8000;
   }else{
     target = 0;
   }
+
   trapezoidCtrl(target,&g_md_h[idx],&tc);
 
   return EXIT_SUCCESS;
@@ -244,9 +248,12 @@ int rotationleft(void){
   unsigned int idx;
 
   idx = MECHA1_MD5;
-  if((__RC_ISPRESSED_L1(g_rc_data))){
+
+  if((__RC_ISPRESSED_L2(g_rc_data)) && (__RC_ISPRESSED_L1(g_rc_data))){
+    target = 0;
+  }else if((__RC_ISPRESSED_L1(g_rc_data)) && !(__RC_ISPRESSED_L2(g_rc_data))){
     target = 8000;
-  }else if((__RC_ISPRESSED_L2(g_rc_data))){
+  }else if((__RC_ISPRESSED_L2(g_rc_data)) && !(__RC_ISPRESSED_L1(g_rc_data))){
     target = -8000;
   }else{
     target = 0;
