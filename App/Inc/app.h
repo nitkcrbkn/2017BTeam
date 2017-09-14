@@ -30,15 +30,19 @@ int appInit(void);
 
 #define DRIVER_AB 0
 
-/*竿展開機構*/
-#define ARM_AB_0 (1<<0)
-#define ARM_AB_1 (1<<1)
+/*アーム展開機構*/
+#define ARM_AB (1<<0)
 
 #define ARM_AB_MAX_COUNT 300
 
-/*プレシルスミサイル*/
-#define MISSILE_AB_0 (1<<2)
-#define MISSILE_AB_1 (1<<3)
+/*アーム用シリンダ*/
+#define ARM_MOVE_0 (1<<1)
+#define ARM_MOVE_1 (1<<2)
+
+/*ミサイル*/
+#define MISSILE_AB_0 (1<<3)
+#define MISSILE_AB_1 (1<<4)
+
 
 #define MD_GAIN ( DD_MD_MAX_DUTY / DD_RC_ANALOG_MAX/3 )
 

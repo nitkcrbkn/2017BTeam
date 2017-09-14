@@ -20,6 +20,9 @@ static
 int armAB(void);
 
 static
+int moveAB(void);
+
+static
 int missileAB(void);
 
 /*メモ
@@ -60,6 +63,11 @@ int appTask(void){
     return ret;
   }
   
+  ret = moveAB();
+  if(ret){
+    return ret;
+  }
+
   ret = missileAB();
   if(ret){
     return ret;
@@ -97,22 +105,30 @@ int armAB(void){
   }
 
   if(ARM_AB_MAX_COUNT > open_count){
-    g_ab_h[DRIVER_AB].dat |= ARM_AB_0;
-    g_ab_h[DRIVER_AB].dat |= ARM_AB_1;
+    g_ab_h[DRIVER_AB].dat |= ARM_AB;
     open_count++;
   }else{
-    g_ab_h[DRIVER_AB].dat &= ~ARM_AB_0;
-    g_ab_h[DRIVER_AB].dat &= ~ARM_AB_1;
+    g_ab_h[DRIVER_AB].dat &= ~ARM_AB;
   }
 
   return EXIT_SUCCESS;
 }
   
-/*ミサイル*/
+static
+int moveAB(void){
+  
+  if(__RC_ISPRESSED_R1(g_rc_data)){
+    g_ab_h[DRIVER_AB].dat ^= ARM_MOVE_0;
+    g_ab_h[DRIVER_AB].dat ^= ARM_MOVE_1;
+  }
+  
+  return EXIT_SUCCESS;
+}
 
+/*ミサイル*/
 static
 int missileAB(void){
-   
+    
   if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_CROSS(g_rc_data))){
     g_ab_h[DRIVER_AB].dat |= MISSILE_AB_0;
   }
