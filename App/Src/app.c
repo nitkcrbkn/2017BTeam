@@ -205,7 +205,6 @@ int suspensionSystem(void){
 }
 
 /*竿回転機構右*/
-
 static 
 int rotationright(void){
   
@@ -235,7 +234,6 @@ int rotationright(void){
 }    
 
 /*竿回転機構左*/
-
 static 
 int rotationleft(void){
   
@@ -263,7 +261,7 @@ int rotationleft(void){
   return EXIT_SUCCESS;
 }
 
-
+/*モード変更*/
 static
 int changeOpeMode(void){
 
@@ -277,7 +275,7 @@ int changeOpeMode(void){
   return EXIT_SUCCESS;
 }
 
-
+/*トランザムシステム*/
 static
 int TRANSAMSystem(void){
   const tc_const_t tc ={
