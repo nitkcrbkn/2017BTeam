@@ -25,6 +25,15 @@ int moveAB(void);
 static
 int missileAB(void);
 
+static
+int changeOpeMode(void);
+
+static
+ope_mode_t g_ope_mode = OPE_MODE_N;
+
+static 
+int TRANSAMSystem(void);
+
 /*メモ
  *g_ab_h...ABのハンドラ
  *g_md_h...MDのハンドラ
