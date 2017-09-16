@@ -95,7 +95,7 @@ static int LEDSystem(void){
   return EXIT_SUCCESS;
 }
 
-/*竿展開機構*/
+/*アーム展開機構*/
 static
 int armAB(void){
   static int open_count = ARM_AB_MAX_COUNT;
@@ -113,7 +113,8 @@ int armAB(void){
 
   return EXIT_SUCCESS;
 }
-  
+
+/*アーム移動機構*/  
 static
 int moveAB(void){
   
