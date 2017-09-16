@@ -129,7 +129,7 @@ static int LEDSystem(void){
 
   static int open_count = ARM_AB_MAX_COUNT;
    
-  if((__RC_ISPRESSED_CIRCLE(g_rc_data)) && (__RC_ISPRESSED_TRIANGLE(g_rc_data))){
+  if((__RC_ISPRESSED_UP(g_rc_data)) && (__RC_ISPRESSED_TRIANGLE(g_rc_data))){
   open_count = 0;
   }
 
