@@ -36,7 +36,7 @@ typedef enum {
 #define DRIVER_AB 0
 
 /*アーム展開機構*/
-#define ARM_AB_0 (1<<0)
+#define ARM_AB (1<<0)
 
 #define ARM_AB_MAX_COUNT 300
 

@@ -132,10 +132,10 @@ int armAB(void){
   }
 
   if(ARM_AB_MAX_COUNT > open_count){
-    g_ab_h[DRIVER_AB].dat |= ARM_AB_0;
+    g_ab_h[DRIVER_AB].dat |= ARM_AB;
     open_count++;
   }else{
-    g_ab_h[DRIVER_AB].dat &= ~ARM_AB_0;
+    g_ab_h[DRIVER_AB].dat &= ~ARM_AB;
   }
 
   return EXIT_SUCCESS;
