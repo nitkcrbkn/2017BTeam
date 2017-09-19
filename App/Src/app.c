@@ -33,7 +33,7 @@ static
 ope_mode_t g_ope_mode = OPE_MODE_N;
 
 static
-int TRANSAMSystem(void);
+int transamSystem(void);
 
 /*メモ
  *g_ab_h...ABのハンドラ
@@ -73,7 +73,7 @@ int appTask(void){
     break;
     
   case OPE_MODE_T:
-    ret = TRANSAMSystem();
+    ret = transamSystem();
     if(ret){
       return ret;
     }
@@ -277,7 +277,7 @@ int changeOpeMode(void){
 
 /*トランザムシステム*/
 static
-int TRANSAMSystem(void){
+int transamSystem(void){
   const tc_const_t tc ={
     .inc_con = 300,//DUTY上限時の傾き
     .dec_con = 400//　　下限時
