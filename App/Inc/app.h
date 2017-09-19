@@ -30,6 +30,11 @@ int appInit(void);
 
 #define DRIVER_AB 0
 
+typedef enum {
+  OPE_MODE_N,
+  OPE_MODE_T,
+}ope_mode_t;
+
 /*アーム展開機構*/
 #define ARM_AB (1<<0)
 
