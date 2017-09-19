@@ -69,21 +69,25 @@ int appTask(void){
 
   switch(g_ope_mode){
   case OPE_MODE_N:
-  ret = suspensionSystem();
-  if(ret){
-    return ret;
-  }
-  break;
+    ret = suspensionSystem();
+    if(ret){
+      return ret;
+    }
+    break;
   
   case OPE_MODE_T:
-  ret = transamSystem();
+    ret = transamSystem();
+    if(ret){
+      return ret;
+    }
+    break;
+  
+  default:return EXIT_FAILURE;
+  }
+
   ret = armAB();
   if(ret){
     return ret;
-  }
-  break;
-  
-  default:return EXIT_FAILURE;
   }
 
   ret = moveAB();
@@ -128,10 +132,10 @@ int armAB(void){
   }
 
   if(ARM_AB_MAX_COUNT > open_count){
-    g_ab_h[DRIVER_AB].dat |= ARM_AB;
+    g_ab_h[DRIVER_AB].dat |= ARM_AB_0;
     open_count++;
   }else{
-    g_ab_h[DRIVER_AB].dat &= ~ARM_AB;
+    g_ab_h[DRIVER_AB].dat &= ~ARM_AB_0;
   }
 
   return EXIT_SUCCESS;
@@ -170,7 +174,7 @@ int missileAB(void){
   }
   
   if((__RC_ISPRESSED_L1(g_rc_data)) && (__RC_ISPRESSED_SQARE(g_rc_data))){
-      g_ab_h[DRIVER_AB].dat |= MISSILE_AB_1;
+    g_ab_h[DRIVER_AB].dat |= MISSILE_AB_1;
   }
   else{
     g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_1;
@@ -299,34 +303,34 @@ static int transamSystem(void){
       break;
     case 1:
       idx = MECHA1_MD2;
-	m = -1*1/SR_TWO*x + 1*1/SR_SIX*y - 1*1/SR_THREE*w;
-	m*=95;
-	if(abs(m)<=4800){
-	  m*=2;
-	}else if(abs(m)>9500){
-	  adjust = abs(m) - 9500;
-	  if(m>0){
-	    m-=adjust;
-	  }else if(m<0){
-	    m+=adjust;
-	  }
+      m = -1*1/SR_TWO*x + 1*1/SR_SIX*y - 1*1/SR_THREE*w;
+      m*=95;
+      if(abs(m)<=4800){
+	m*=2;
+      }else if(abs(m)>9500){
+	adjust = abs(m) - 9500;
+	if(m>0){
+	  m-=adjust;
+	}else if(m<0){
+	  m+=adjust;
 	}
-	break;
+      }
+      break;
     case 2:
       idx = MECHA1_MD3;
       m = 1*1/SR_TWO*x + 1*1/SR_SIX*y - 1*1/SR_THREE*w;
-	  m*=95;
-	  if(abs(m)<=4800){
-	    m*=2;
-	  }else if(abs(m)>9600){
-	    adjust = abs(m) - 9600;
-	    if(m>0){
-	      m-=adjust;
-	    }else if(m<0){
-	      m+=adjust;
-	    }
-	  }
-	break;
+      m*=95;
+      if(abs(m)<=4800){
+	m*=2;
+      }else if(abs(m)>9600){
+	adjust = abs(m) - 9600;
+	if(m>0){
+	  m-=adjust;
+	}else if(m<0){
+	  m+=adjust;
+	}
+      }
+      break;
     default:
       return EXIT_FAILURE;
     }

@@ -28,15 +28,15 @@ int appInit(void);
 #define SR_THREE 1.7320 //ルート3
 #define SR_SIX 2.4494 //ルート6
 
-#define DRIVER_AB 0
-
 typedef enum {
   OPE_MODE_N,
   OPE_MODE_T,
 }ope_mode_t;
 
+#define DRIVER_AB 0
+
 /*アーム展開機構*/
-#define ARM_AB (1<<0)
+#define ARM_AB_0 (1<<0)
 
 #define ARM_AB_MAX_COUNT 300
 
