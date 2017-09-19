@@ -254,7 +254,7 @@ static int transamSystem(void){
   };
   const int num_of_motor = 3;/*モータの個数*/
   unsigned int idx;/*インデックス*/
-  int m,x,y,w;
+  int m,x,y,w,adjust;
   int i;
 
   if(abs(DD_RCGetLX(g_rc_data))<CENTRAL_THRESHOLD){
@@ -283,22 +283,55 @@ static int transamSystem(void){
     case 0:
       idx = MECHA1_MD1;
       m = -2*1/SR_SIX*y - 1*1/SR_THREE*w;
-      break;
+      m*=95;
+      if(m<=4800){
+	m*=2;
+      }else if(abs(m)>9600){
+	adjust = abs(m) - 9600;
+	if(m>0){
+	  m-=adjust;
+	}else{
+	  m+=adjust;
+	}
+      }
+	break;
     case 1:
-      idx = MECHA1_MD2;
-      m = -1*1/SR_TWO*x + 1*1/SR_SIX*y - 1*1/SR_THREE*w;
-      break;
+	idx = MECHA1_MD2;
+	m = -1*1/SR_TWO*x + 1*1/SR_SIX*y - 1*1/SR_THREE*w;
+	m*=95;
+	if(m<=4800){
+	  m*=2;
+	}else if(abs(m)>9600){
+	  adjust = abs(m) - 9600;
+	  if(m>0){
+	    m-=adjust;
+	  }else{
+	    m+=adjust;
+	  }
+	}
+	break;
     case 2:
-      idx = MECHA1_MD3;
-      m = 1*1/SR_TWO*x + 1*1/SR_SIX*y - 1*1/SR_THREE*w;
-      break;
+	  idx = MECHA1_MD3;
+	  m = 1*1/SR_TWO*x + 1*1/SR_SIX*y - 1*1/SR_THREE*w;
+	  m*=95;
+	  if(m<=4800){
+	    m*=2;
+      }else if(abs(m)>9600){
+	    adjust = abs(m) - 9600;
+	    if(m>0){
+	      m-=adjust;
+	    }else{
+	      m+=adjust;
+	    }
+	  }
+	break;
     default:
       return EXIT_FAILURE;
     }
     m *= 95;
     trapezoidCtrl(m,&g_md_h[idx],&tc);
   }
-
+  
   return EXIT_SUCCESS;
-
+  
 }
