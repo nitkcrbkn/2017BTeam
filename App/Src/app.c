@@ -234,9 +234,10 @@ int suspensionSystem(void){
   }
 
   return EXIT_SUCCESS;
-
+  
 }
 
+/*モード変更*/
 static int  changeOpeMode(void){
   if(__RC_ISPRESSED_CROSS(g_rc_data)){
     g_ope_mode = OPE_MODE_T;
@@ -247,6 +248,7 @@ static int  changeOpeMode(void){
   return EXIT_SUCCESS;
 }
 
+/*トランザムシステム*/
 static int transamSystem(void){
   const tc_const_t tc ={
     .inc_con = 300,//DUTY上限時の傾き
@@ -256,7 +258,7 @@ static int transamSystem(void){
   unsigned int idx;/*インデックス*/
   int m,x,y,w,adjust;
   int i;
-
+  
   if(abs(DD_RCGetLX(g_rc_data))<CENTRAL_THRESHOLD){
     y = 0;
   }else{
@@ -268,13 +270,13 @@ static int transamSystem(void){
   }else{
     x = -DD_RCGetLY(g_rc_data);
   }
-
+  
   if(abs(DD_RCGetRX(g_rc_data))<CENTRAL_THRESHOLD){
     w = 0;
   }else{
     w = -DD_RCGetRX(g_rc_data);
   }
-
+  
   
   /*for each motor*/
   for(i=0;i<num_of_motor;i++){
@@ -294,9 +296,9 @@ static int transamSystem(void){
 	  m+=adjust;
 	}
       }
-	break;
+      break;
     case 1:
-	idx = MECHA1_MD2;
+      idx = MECHA1_MD2;
 	m = -1*1/SR_TWO*x + 1*1/SR_SIX*y - 1*1/SR_THREE*w;
 	m*=95;
 	if(abs(m)<=4800){
@@ -312,7 +314,7 @@ static int transamSystem(void){
 	break;
     case 2:
       idx = MECHA1_MD3;
-	  m = 1*1/SR_TWO*x + 1*1/SR_SIX*y - 1*1/SR_THREE*w;
+      m = 1*1/SR_TWO*x + 1*1/SR_SIX*y - 1*1/SR_THREE*w;
 	  m*=95;
 	  if(abs(m)<=4800){
 	    m*=2;
