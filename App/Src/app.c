@@ -284,13 +284,13 @@ static int transamSystem(void){
       idx = MECHA1_MD1;
       m = -2*1/SR_SIX*y - 1*1/SR_THREE*w;
       m*=95;
-      if(m<=4800){
+      if(abs(m)<=4800){
 	m*=2;
-      }else if(abs(m)>9600){
-	adjust = abs(m) - 9600;
+      }else if(abs(m)>=9500){
+	adjust = abs(m) - 9500;
 	if(m>0){
 	  m-=adjust;
-	}else{
+	}else if(m<0){
 	  m+=adjust;
 	}
       }
@@ -299,28 +299,28 @@ static int transamSystem(void){
 	idx = MECHA1_MD2;
 	m = -1*1/SR_TWO*x + 1*1/SR_SIX*y - 1*1/SR_THREE*w;
 	m*=95;
-	if(m<=4800){
+	if(abs(m)<=4800){
 	  m*=2;
-	}else if(abs(m)>9600){
-	  adjust = abs(m) - 9600;
+	}else if(abs(m)>9500){
+	  adjust = abs(m) - 9500;
 	  if(m>0){
 	    m-=adjust;
-	  }else{
+	  }else if(m<0){
 	    m+=adjust;
 	  }
 	}
 	break;
     case 2:
-	  idx = MECHA1_MD3;
+      idx = MECHA1_MD3;
 	  m = 1*1/SR_TWO*x + 1*1/SR_SIX*y - 1*1/SR_THREE*w;
 	  m*=95;
-	  if(m<=4800){
+	  if(abs(m)<=4800){
 	    m*=2;
-      }else if(abs(m)>9600){
+	  }else if(abs(m)>9600){
 	    adjust = abs(m) - 9600;
 	    if(m>0){
 	      m-=adjust;
-	    }else{
+	    }else if(m<0){
 	      m+=adjust;
 	    }
 	  }
@@ -328,7 +328,6 @@ static int transamSystem(void){
     default:
       return EXIT_FAILURE;
     }
-    m *= 95;
     trapezoidCtrl(m,&g_md_h[idx],&tc);
   }
   
