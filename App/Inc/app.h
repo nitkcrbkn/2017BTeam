@@ -46,6 +46,7 @@ typedef enum{
 #define ON_AB2 (1<<2) //0x04
 #define ON_AB3 (1<<3) //0x08
 #define ON_AB4 (1<<4) //0x10
+#define ON_AB5 (1<<5)
 
 #define ON_AB_MAX_COUNT 300
 

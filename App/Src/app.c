@@ -12,8 +12,10 @@
 
 //static
 //int suspensionSystem(void);
-static 
-int ABSystem(void);
+//static 
+//int ABSystem(void);
+static
+int ASSystem(void);
 static
 int LEDSystem(void);
 //static
@@ -73,10 +75,18 @@ int appTask(void){
     }
   */
 
-  ret = ABSystem();
-  if(ret){
+  /*
+    ret = ABSystem();
+    if(ret){
+    return ret;
+    }
+  */
+
+  ret = ASSystem();
+  if(ret) {
     return ret;
   }
+  
   
   ret = LEDSystem();
   if(ret){
@@ -121,57 +131,94 @@ static int LEDSystem(void){
   return EXIT_SUCCESS;
 }
 
-static 
-int ABSystem(void){
+/*
+  static 
+  int ABSystem(void){
   int i;
-  const int NUM_OF_AB = 5;
+  const int NUM_OF_AB = 6;
 
   for(i=0; i<NUM_OF_AB; i++) {
-    switch(i) {
-    case 0: //竿１
-      if((__RC_ISPRESSED_CIRCLE(g_rc_data)) && (__RC_ISPRESSED_TRIANGLE(g_rc_data)) && !(__RC_ISPRESSED_CROSS(g_rc_data)) && !(__RC_ISPRESSED_SQARE(g_rc_data))) {
-	g_ab_h[0].dat |= ON_AB0;
-      } else {
-	g_ab_h[0].dat &= ~ON_AB0;
-      }
-      break;
-
-    case 1: //竿２
-      if((__RC_ISPRESSED_SQARE(g_rc_data)) && (__RC_ISPRESSED_CROSS(g_rc_data)) && !(__RC_ISPRESSED_CIRCLE(g_rc_data)) && !(__RC_ISPRESSED_TRIANGLE(g_rc_data))) {
-	g_ab_h[0].dat |= ON_AB1;
-      } else {
-	g_ab_h[0].dat &= ~ON_AB1;
-      }
-      break;
-      
-    case 2: //シリンダ１
-      if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_L1(g_rc_data))){
-	g_ab_h[0].dat |= ON_AB2;
-      } else {
-	g_ab_h[0].dat &= ~ON_AB2;
-      }
-      break;
-      
-    case 3: //シリンダ２
-      if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data))){
-	g_ab_h[0].dat |= ON_AB3;
-      } else {
-	g_ab_h[0].dat &= ~ON_AB3;
-      }
-      break;
-      
-    case 4: //剣を振る
-      if((__RC_ISPRESSED_UP(g_rc_data)) && !(__RC_ISPRESSED_CIRCLE(g_rc_data)) && !(__RC_ISPRESSED_CROSS(g_rc_data)) && !(__RC_ISPRESSED_SQARE(g_rc_data)) && !(__RC_ISPRESSED_TRIANGLE(g_rc_data))) {
-	g_ab_h[0].dat |= ON_AB4;
-      } else {
-	g_ab_h[0].dat &= ~ON_AB4;
-      }
-      break;
-      
-    default :
-      return EXIT_FAILURE;
-    }
+  switch(i) {
+  case 0: //竿１
+  if((__RC_ISPRESSED_CIRCLE(g_rc_data)) && (__RC_ISPRESSED_TRIANGLE(g_rc_data)) && !(__RC_ISPRESSED_CROSS(g_rc_data)) && !(__RC_ISPRESSED_SQARE(g_rc_data))) {
+  g_ab_h[0].dat |= ON_AB0;
+  } else {
+  g_ab_h[0].dat &= ~ON_AB0;
   }
+  break;
+
+  case 1: //竿２
+  if((__RC_ISPRESSED_SQARE(g_rc_data)) && (__RC_ISPRESSED_CROSS(g_rc_data)) && !(__RC_ISPRESSED_CIRCLE(g_rc_data)) && !(__RC_ISPRESSED_TRIANGLE(g_rc_data))) {
+  g_ab_h[0].dat |= ON_AB1;
+  } else {
+  g_ab_h[0].dat &= ~ON_AB1;
+  }
+  break;
+      
+  case 2: //シリンダ１
+  if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_L1(g_rc_data))){
+  g_ab_h[0].dat |= ON_AB2;
+  } else {
+  g_ab_h[0].dat &= ~ON_AB2;
+  }
+  break;
+      
+  case 3: //シリンダ２
+  if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data))){
+  g_ab_h[0].dat |= ON_AB3;
+  } else {
+  g_ab_h[0].dat &= ~ON_AB3;
+  }
+  break;
+      
+  case 4: //剣を振る
+  if((__RC_ISPRESSED_UP(g_rc_data)) && !(__RC_ISPRESSED_CIRCLE(g_rc_data)) && !(__RC_ISPRESSED_CROSS(g_rc_data)) && !(__RC_ISPRESSED_SQARE(g_rc_data)) && !(__RC_ISPRESSED_TRIANGLE(g_rc_data))) {
+  g_ab_h[0].dat |= ON_AB4;
+  } else {
+  g_ab_h[0].dat &= ~ON_AB4;
+  }
+  break;
+
+  case 5:
+  if(__RC_ISPRESSED_DOWN(g_rc_data)) {
+  g_ab_h[0].dat |= ON_AB5;
+  } else {
+  g_ab_h[0].dat &= ~ON_AB5;
+  }
+  break;
+      
+  default :
+  return EXIT_FAILURE;
+  }
+  }
+  return EXIT_SUCCESS;
+  }
+*/
+
+static
+int ASSystem(void) {
+  static int BLOW_AIR;
+
+  if(__RC_ISPRESSED_L2(g_rc_data)) {
+    BLOW_AIR = 0;
+  }else if(BLOW_AIR == 1) {                 //BLOW_AIRに1が代入されていればそれを保持
+    BLOW_AIR = 1;
+  }else if(__RC_ISPRESSED_R2(g_rc_data)) {  //R2を押せばBLOW_AIRに1を代入
+    BLOW_AIR = 1;
+  }else if(!__RC_ISPRESSED_R2(g_rc_data)) { //初期の変数の宣言、0を代入
+    BLOW_AIR = 0;
+  }
+  
+  switch(BLOW_AIR) {
+  case 0:
+    g_ab_h[0].dat &= ~ON_AB0;
+    break;
+
+  case 1:
+    g_ab_h[0].dat |= ON_AB0;
+    break;
+  }
+    
   return EXIT_SUCCESS;
 }
 
