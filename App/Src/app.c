@@ -148,14 +148,15 @@ int moveAB(void){
   if(__RC_ISPRESSED_UP(g_rc_data)){
     g_ab_h[DRIVER_AB].dat |= ARM_MOVE_0;
   }
-  else{
+  else if(__RC_ISPRESSED_DOWN(g_rc_data)){
     g_ab_h[DRIVER_AB].dat &= ~ARM_MOVE_0;
-  }
-
-  if(__RC_ISPRESSED_DOWN(g_rc_data)){
+  }    
+  
+  
+  if(__RC_ISPRESSED_RIGHT(g_rc_data)){
     g_ab_h[DRIVER_AB].dat |= ARM_MOVE_1;
   }
-  else{
+  else if(__RC_ISPRESSED_LEFT(g_rc_data)){
     g_ab_h[DRIVER_AB].dat &= ~ARM_MOVE_1;
   }
   
