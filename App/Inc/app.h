@@ -7,7 +7,7 @@
 int appTask(void);
 int appInit(void);
 
-#define DD_NUM_OF_MD 0
+#define DD_NUM_OF_MD 2
 #define DD_NUM_OF_AB 1
 
 #define DD_USE_ENCODER1 0
