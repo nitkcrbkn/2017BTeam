@@ -110,8 +110,6 @@ int ASSystem(void) {
     BLOW_AIR = 1;
   }else if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_L1(g_rc_data))) {  //R2を押せばBLOW_AIRに1を代入
     BLOW_AIR = 1;
-  }else if((!__RC_ISPRESSED_R1(g_rc_data)) || (!__RC_ISPRESSED_L1(g_rc_data))) { //初期の変数に0を代入
-    BLOW_AIR = 0;
   }
   
   switch(BLOW_AIR) {
