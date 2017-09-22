@@ -12,22 +12,16 @@
 
 static
 int suspensionSystem(void);
-//static 
-//int ABSystem(void);
 static
 int ASSystem(void);
 static
 int LEDSystem(void);
-//static
-//int SwingArm(void);
 static
 int changeOpeMode(void);
 static
 ope_mode_t g_ope_mode = OPE_MODE_A;
 static
 int suspensionSystem_fast(void);
-//static
-//int WorkLock(void);
 /*メモ
  *g_ab_h...ABのハンドラ
  *g_md_h...MDのハンドラ
@@ -73,13 +67,6 @@ int appTask(void){
     break;
   }
 
-  /*
-    ret = ABSystem();
-    if(ret){
-    return ret;
-    }
-  */
-
   ret = ASSystem();
   if(ret) {
     return ret;
@@ -90,20 +77,6 @@ int appTask(void){
   if(ret){
     return ret;
   }
-
-  /*
-    ret = SwingArm();
-    if(ret){
-    return ret;
-    }
-  */
-
-  /*
-    ret = WorkLock();
-    if(ret) {
-    return ret;
-    }
-  */
 
   ret = changeOpeMode();
   if(ret) {
@@ -126,70 +99,6 @@ static int LEDSystem(void){
 
   return EXIT_SUCCESS;
 }
-
-/*
-  static 
-  int ABSystem(void){
-  int i;
-  const int NUM_OF_AB = 6;
-
-  for(i=0; i<NUM_OF_AB; i++) {
-  switch(i) {
-  case 0: //竿１
-  if((__RC_ISPRESSED_CIRCLE(g_rc_data)) && (__RC_ISPRESSED_TRIANGLE(g_rc_data)) && !(__RC_ISPRESSED_CROSS(g_rc_data)) && !(__RC_ISPRESSED_SQARE(g_rc_data))) {
-  g_ab_h[0].dat |= ON_AB0;
-  } else {
-  g_ab_h[0].dat &= ~ON_AB0;
-  }
-  break;
-
-  case 1: //竿２
-  if((__RC_ISPRESSED_SQARE(g_rc_data)) && (__RC_ISPRESSED_CROSS(g_rc_data)) && !(__RC_ISPRESSED_CIRCLE(g_rc_data)) && !(__RC_ISPRESSED_TRIANGLE(g_rc_data))) {
-  g_ab_h[0].dat |= ON_AB1;
-  } else {
-  g_ab_h[0].dat &= ~ON_AB1;
-  }
-  break;
-      
-  case 2: //シリンダ１
-  if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_L1(g_rc_data))){
-  g_ab_h[0].dat |= ON_AB2;
-  } else {
-  g_ab_h[0].dat &= ~ON_AB2;
-  }
-  break;
-      
-  case 3: //シリンダ２
-  if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data))){
-  g_ab_h[0].dat |= ON_AB3;
-  } else {
-  g_ab_h[0].dat &= ~ON_AB3;
-  }
-  break;
-      
-  case 4: //剣を振る
-  if((__RC_ISPRESSED_UP(g_rc_data)) && !(__RC_ISPRESSED_CIRCLE(g_rc_data)) && !(__RC_ISPRESSED_CROSS(g_rc_data)) && !(__RC_ISPRESSED_SQARE(g_rc_data)) && !(__RC_ISPRESSED_TRIANGLE(g_rc_data))) {
-  g_ab_h[0].dat |= ON_AB4;
-  } else {
-  g_ab_h[0].dat &= ~ON_AB4;
-  }
-  break;
-
-  case 5:
-  if(__RC_ISPRESSED_DOWN(g_rc_data)) {
-  g_ab_h[0].dat |= ON_AB5;
-  } else {
-  g_ab_h[0].dat &= ~ON_AB5;
-  }
-  break;
-      
-  default :
-  return EXIT_FAILURE;
-  }
-  }
-  return EXIT_SUCCESS;
-  }
-*/
 
 static
 int ASSystem(void) {
@@ -282,54 +191,6 @@ int suspensionSystem(void){
   return EXIT_SUCCESS;
 }
 
-/*
-  static
-  int SwingArm(void){
-
-  int target;
-  const tc_const_t tc= {
-  .inc_con = 1000,  //duty上昇時の傾き
-  .dec_con = 1000,  //duty下降時の傾き
-  };
-  
-  unsigned int idx;//インデックス
-  idx = MECHA1_MD2;
-  target = 0;
-  
-  if((__RC_ISPRESSED_RIGHT(g_rc_data)) && (_IS_PRESSED_RIGHT_LIMITSW())) {
-  target = 4000;
-  }
-  if((__RC_ISPRESSED_LEFT(g_rc_data)) && (_IS_PRESSED_LEFT_LIMITSW())) {
-  target = -4000;
-  }
-
-  if((target > 0) && !(_IS_PRESSED_RIGHT_LIMITSW())) {
-  target = 0;
-  }
-  if((target < 0) && !(_IS_PRESSED_LEFT_LIMITSW())) {
-  target = 0;
-  }
-
-  trapezoidCtrl(target,&g_md_h[idx],&tc);
-    
-  return EXIT_SUCCESS;
-  }
-*/
-
-/*
-  static //サーボを動かすプログラム
-  int WorkLock(void){
-  if(((__RC_ISPRESSED_CIRCLE(g_rc_data))) && ((__RC_ISPRESSED_CROSS(g_rc_data))) && ((__RC_ISPRESSED_SQARE(g_rc_data))) && ((__RC_ISPRESSED_TRIANGLE(g_rc_data))) && ((__RC_ISPRESSED_DOWN(g_rc_data)))) {
-  g_sv_h.val[0] = 475;
-  }
-  
-  if(((__RC_ISPRESSED_CIRCLE(g_rc_data))) && ((__RC_ISPRESSED_CROSS(g_rc_data))) && ((__RC_ISPRESSED_SQARE(g_rc_data))) && ((__RC_ISPRESSED_TRIANGLE(g_rc_data))) && ((__RC_ISPRESSED_UP(g_rc_data)))) {
-  g_sv_h.val[0] = 300;
-  }
-  
-  return EXIT_SUCCESS;
-  }
-*/
 
 static
 int changeOpeMode(void){
