@@ -8,7 +8,7 @@ int appTask(void);
 int appInit(void);
 
 #define DD_NUM_OF_MD 5
-#define DD_NUM_OF_AB 0
+#define DD_NUM_OF_AB 1
 
 #define DD_USE_ENCODER1 0
 #define DD_USE_ENCODER2 0
@@ -38,8 +38,7 @@ typedef enum{
 #define DRIVER_AB 0
 
 /*竿展開機構*/
-#define ARM_AB_0 (1<<0)
-#define ARM_AB_1 (1<<1)
+#define ARM_AB (1<<0)
 
 #define ARM_AB_MAX_COUNT 300
 

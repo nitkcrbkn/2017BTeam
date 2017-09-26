@@ -16,10 +16,10 @@ int suspensionSystem(void);
 
 static
 int LEDSystem(void);
-/*
-  static
-  int armAB(void);
-*/
+
+static
+int armAB(void);
+
 static
 int rotationarm(void);
 
@@ -81,12 +81,12 @@ int appTask(void){
   if(ret){
     return ret;
   }
-  /* 
-     ret = armAB();
-     if(ret){
-     return ret;
+   
+  ret = armAB();
+  if(ret){
+    return ret;
      }
-  */
+  
   ret = LEDSystem();
   if(ret){
     return ret;
@@ -115,28 +115,25 @@ static int LEDSystem(void){
 }
 
 /*アーム展開機構*/
-/*
-  static
-  int armAB(void){
-
+static
+int armAB(void){
+  
   static int open_count = ARM_AB_MAX_COUNT;
    
   if((__RC_ISPRESSED_UP(g_rc_data)) && (__RC_ISPRESSED_TRIANGLE(g_rc_data))){
-  open_count = 0;
+    open_count = 0;
   }
 
   if(ARM_AB_MAX_COUNT > open_count){
-  g_ab_h[DRIVER_AB].dat |= ARM_AB_0;
-  g_ab_h[DRIVER_AB].dat |= ARM_AB_1;
-  open_count++;
+    g_ab_h[DRIVER_AB].dat |= ARM_AB;
+    open_count++;
   }else{
-  g_ab_h[DRIVER_AB].dat &= ~ARM_AB_0;
-  g_ab_h[DRIVER_AB].dat &= ~ARM_AB_1;
+    g_ab_h[DRIVER_AB].dat &= ~ARM_AB;
   }
   
   return EXIT_SUCCESS;
-  }
-*/  
+}
+
 /*プライベート 足回りシステム*/
 static
 int suspensionSystem(void){
