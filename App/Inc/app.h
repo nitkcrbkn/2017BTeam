@@ -23,7 +23,6 @@ int appInit(void);
 #define MECHA1_MD3 2
 /*アーム回転機構*/
 #define MECHA1_MD4 3
-#define MECHA1_MD5 4
  
 #define CENTRAL_THRESHOLD 4
 
