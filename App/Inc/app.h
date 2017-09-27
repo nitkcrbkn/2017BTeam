@@ -25,7 +25,7 @@ int appInit(void);
 #define MECHA1_MD4 3
  
 #define CENTRAL_THRESHOLD 4
-
+/*三輪オムニ用*/
 #define SR_TWO 1.4142 //ルート2
 #define SR_THREE 1.7320 //ルート3
 #define SR_SIX 2.4494 //ルート6
