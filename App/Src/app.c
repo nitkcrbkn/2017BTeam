@@ -102,26 +102,32 @@ static int LEDSystem(void){
 
 static
 int ASSystem(void) {
-  static int BLOW_AIR;
+  static int BLOW_AIR = 0;
 
-  if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data))) {
+  /*
+    if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data)) && (BLOW_AIR == 1)){  //空気が送られていれば切る
     BLOW_AIR = 0;
-  }else if(BLOW_AIR == 1) {                 //BLOW_AIRに1が代入されていればそれを保持
-    BLOW_AIR = 1;
-  }else if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_L1(g_rc_data))) {  //R2を押せばBLOW_AIRに1を代入
-    BLOW_AIR = 1;
-  }
-  
-  switch(BLOW_AIR) {
-  case 0:
     g_ab_h[0].dat &= ~ON_AB0;
     g_ab_h[0].dat &= ~ON_AB1;
-    break;
-
-  case 1:
+    }else if(BLOW_AIR == 1) { //BLOW_AIRに1が代入されていればそれを保持
     g_ab_h[0].dat |= ON_AB0;
     g_ab_h[0].dat |= ON_AB1;
-    break;
+    }else if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_L1(g_rc_data))) {  //R1,L1を押せばBLOW_AIRに1を代入
+    BLOW_AIR = 1;
+    
+    g_ab_h[0].dat |= ON_AB0;
+    g_ab_h[0].dat |= ON_AB1;
+    }
+  */
+
+  if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_L1(g_rc_data))) {
+    if(BLOW_AIR == 0) {
+      g_ab_h[0].dat ^= ON_AB0;
+      g_ab_h[0].dat ^= ON_AB1;
+      BLOW_AIR = 1;
+    }
+  } else {
+    BLOW_AIR = 0;
   }
     
   return EXIT_SUCCESS;
@@ -139,9 +145,8 @@ int suspensionSystem(void){
   const int num_of_motor = 2;//モータの個数
   //int rc_analogdata;//アナログデータ
   unsigned int idx;//インデックス
-  int i,m,x,w;//y,w;
+  int i,duty,x,w;//y,w;
   x = -DD_RCGetLY(g_rc_data);
-  //y = -DD_RCGetLX(g_rc_data);
   w = -DD_RCGetRX(g_rc_data);
   
   //for each motor
@@ -150,41 +155,19 @@ int suspensionSystem(void){
     switch (i) {
     case 0:
       idx = MECHA1_MD0;
-      m = x -w;
+      duty = x -w;
       break;
 
     case 1:
       idx = MECHA1_MD1;
-      m = -x -w;
+      duty = -x -w;
       break;
-
-      /*４輪オムニ用のプログラム
-	case 0:
-	idx = MECHA1_MD0;
-	m = x -y -w;
-	break;
-
-	case 1:
-	idx = MECHA1_MD1;
-	m = x +y -w;
-	break;
-
-	case 2:
-	idx = MECHA1_MD2;
-	m = -x +y -w;
-	break;
-
-	case 3:
-	idx = MECHA1_MD3;
-	m = -x -y -w;
-	break;
-      */
 
     default:
       return EXIT_FAILURE;
     }
-    m *= 75;//モータの出力不足を補う
-    trapezoidCtrl(m,&g_md_h[idx],&tc);
+    duty *= 75;//モータの出力不足を補う
+    trapezoidCtrl(duty,&g_md_h[idx],&tc);
   }
   return EXIT_SUCCESS;
 }
@@ -213,40 +196,39 @@ int suspensionSystem_fast(void){
   const int num_of_motor = 2;//モータの個数
   //int rc_analogdata;//アナログデータ
   unsigned int idx;//インデックス
-  int i,m,x,w,adjust;
-  x = -DD_RCGetLY(g_rc_data);
-  //y = -DD_RCGetLX(g_rc_data);
-  w = -DD_RCGetRX(g_rc_data);
+  int i,duty,x,w,adjust;
+  x = -DD_RCGetLY(g_rc_data); //左スティックの前後の座標
+  w = -DD_RCGetRX(g_rc_data); //右スティックの左右の座標
   
-  for (i=0; i<num_of_motor; i++) {
+  for (i=0; i<num_of_motor; i++) { 
     switch (i) {
     case 0:
-      idx = MECHA1_MD0;
-      m = x -w;
-      m *= 75;//モータの出力不足を補う
-      if(abs(m) <= 4800) {//dutyが低かったら引き上げ
-	m *= 2;
-      } else if(abs(m) >= 9500) {//dutyが9500を超えたら9500以下になるよう調整
-	adjust = abs(m) - 9500;
-	if(m > 0) {
-	  m -= adjust;
-	} else if(m < 0) {
-	  m += adjust;
+      idx = MECHA1_MD0; //左の駆動
+      duty = x -w;
+      duty *= 75; //モータの出力不足を補う
+      if(abs(duty) <= 4800) { //dutyが低かったら引き上げ
+	duty *= 2;
+      } else if(abs(duty) >= 9500) { //dutyが9500を超えたら9500以下になるよう調整
+	adjust = abs(duty) - 9500;
+	if(duty > 0) {
+	  duty -= adjust;
+	} else if(duty < 0) {
+	  duty += adjust;
 	}
       }
       break;
     case 1:
-      idx = MECHA1_MD1;
-      m = -x -w;
-      m *= 75;//モータの出力不足を補う
-      if(abs(m) <= 4800) {
-	m *= 2;
-      } else if(abs(m) >= 9500) {
-	adjust = abs(m) - 9500;
-	if(m > 0) {
-	  m -= adjust;
-	} else if(m < 0) {
-	  m += adjust;
+      idx = MECHA1_MD1; //右の駆動
+      duty = -x -w;
+      duty *= 75; //モータの出力不足を補う
+      if(abs(duty) <= 4800) {
+	duty *= 2;
+      } else if(abs(duty) >= 9500) {
+	adjust = abs(duty) - 9500;
+	if(duty > 0) {
+	  duty -= adjust;
+	} else if(duty < 0) {
+	  duty += adjust;
 	}
       }
       break;
@@ -255,7 +237,7 @@ int suspensionSystem_fast(void){
       return EXIT_FAILURE;
     }
 
-    trapezoidCtrl(m,&g_md_h[idx],&tc);
+    trapezoidCtrl(duty,&g_md_h[idx],&tc);
   }
 
   return EXIT_SUCCESS;
