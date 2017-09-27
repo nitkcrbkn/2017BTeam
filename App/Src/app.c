@@ -126,11 +126,11 @@ static int LEDSystem(void){
 static
 int armAB(void){
   static int open_count = ARM_AB_MAX_COUNT;
-   
-  if((__RC_ISPRESSED_CIRCLE(g_rc_data)) && (__RC_ISPRESSED_TRIANGLE(g_rc_data))){
+  
+  if(__RC_ISPRESSED_TRIANGLE(g_rc_data)){
     open_count = 0;
   }
-
+  
   if(ARM_AB_MAX_COUNT > open_count){
     g_ab_h[DRIVER_AB].dat |= ARM_AB;
     open_count++;
@@ -144,20 +144,27 @@ int armAB(void){
 /*アーム移動機構*/  
 static
 int moveAB(void){
-  
-  if(__RC_ISPRESSED_UP(g_rc_data)){
-    g_ab_h[DRIVER_AB].dat |= ARM_MOVE_0;
+  static int switch_AB_R = 0;
+  static int switch_AB_L = 0;
+
+  if(__RC_ISPRESSED_R1(g_rc_data)){
+    if(switch_AB_R == 0){
+      g_ab_h[DRIVER_AB].dat ^= ARM_MOVE_0;
+      switch_AB_R = 1;
+    }
   }
-  else if(__RC_ISPRESSED_DOWN(g_rc_data)){
-    g_ab_h[DRIVER_AB].dat &= ~ARM_MOVE_0;
-  }    
-  
-  
-  if(__RC_ISPRESSED_RIGHT(g_rc_data)){
-    g_ab_h[DRIVER_AB].dat |= ARM_MOVE_1;
+  else{
+    switch_AB_R = 0;
   }
-  else if(__RC_ISPRESSED_LEFT(g_rc_data)){
-    g_ab_h[DRIVER_AB].dat &= ~ARM_MOVE_1;
+  
+  if(__RC_ISPRESSED_L1(g_rc_data)){
+    if(switch_AB_L == 0){
+      g_ab_h[DRIVER_AB].dat ^= ARM_MOVE_1;
+      switch_AB_L = 1;
+    }
+  }
+  else{
+    switch_AB_L = 0;
   }
   
   return EXIT_SUCCESS;
@@ -167,14 +174,14 @@ int moveAB(void){
 static
 int missileAB(void){
     
-  if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_CROSS(g_rc_data))){
+  if(__RC_ISPRESSED_UP(g_rc_data)){
     g_ab_h[DRIVER_AB].dat |= MISSILE_AB_0;
   }
   else{
     g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_0;
   }
   
-  if((__RC_ISPRESSED_L1(g_rc_data)) && (__RC_ISPRESSED_SQARE(g_rc_data))){
+  if(__RC_ISPRESSED_DOWN(g_rc_data)){
     g_ab_h[DRIVER_AB].dat |= MISSILE_AB_1;
   }
   else{
