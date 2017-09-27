@@ -174,14 +174,14 @@ int moveAB(void){
 static
 int missileAB(void){
     
-  if(__RC_ISPRESSED_UP(g_rc_data)){
+  if(__RC_ISPRESSED_R2(g_rc_data)){
     g_ab_h[DRIVER_AB].dat |= MISSILE_AB_0;
   }
   else{
     g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_0;
   }
   
-  if(__RC_ISPRESSED_DOWN(g_rc_data)){
+  if(__RC_ISPRESSED_L2(g_rc_data)){
     g_ab_h[DRIVER_AB].dat |= MISSILE_AB_1;
   }
   else{
