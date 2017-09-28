@@ -12,8 +12,8 @@
 
 static
 int suspensionSystem(void);
-static 
-int ABSystem(void);
+//static 
+//int ABSystem(void);
 static
 int LEDSystem(void);
 static
@@ -69,10 +69,12 @@ int appTask(void){
     break;
   }
 
+  /*
   ret = ABSystem();
   if(ret){
     return ret;
   }
+  */
 
   ret = LEDSystem();
   if(ret){
@@ -132,6 +134,7 @@ int SpinRod(void){
   return EXIT_SUCCESS;
 }
 
+/*
 static 
 int ABSystem(void){
   
@@ -143,6 +146,7 @@ int ABSystem(void){
   
   return EXIT_SUCCESS;
 }
+*/
 
 /*プライベート 足回りシステム*/
 static
