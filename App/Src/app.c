@@ -145,27 +145,16 @@ int armAB(void){
 /*アーム移動機構*/  
 static
 int moveAB(void){
-  static int switch_AB_R = 0;
-  static int switch_AB_L = 0;
+  static int switch_AB = 0;
 
   if(__RC_ISPRESSED_R1(g_rc_data)){
-    if(switch_AB_R == 0){
-      g_ab_h[DRIVER_AB].dat ^= ARM_MOVE_0;
-      switch_AB_R = 1;
+    if(switch_AB == 0){
+      g_ab_h[DRIVER_AB].dat ^= ARM_MOVE;
+      switch_AB = 1;
     }
   }
   else{
-    switch_AB_R = 0;
-  }
-  
-  if(__RC_ISPRESSED_L1(g_rc_data)){
-    if(switch_AB_L == 0){
-      g_ab_h[DRIVER_AB].dat ^= ARM_MOVE_1;
-      switch_AB_L = 1;
-    }
-  }
-  else{
-    switch_AB_L = 0;
+    switch_AB = 0;
   }
   
   return EXIT_SUCCESS;
@@ -173,25 +162,32 @@ int moveAB(void){
 
 /*ミサイル*/
 /*
-static
-int missileAB(void){
+  static
+  int missileAB(void){
     
   if(__RC_ISPRESSED_R2(g_rc_data)){
-    g_ab_h[DRIVER_AB].dat |= MISSILE_AB_0;
+  g_ab_h[DRIVER_AB].dat |= MISSILE_AB_0;
   }
   else{
-    g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_0;
+  g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_0;
   }
   
   if(__RC_ISPRESSED_L2(g_rc_data)){
-    g_ab_h[DRIVER_AB].dat |= MISSILE_AB_1;
+  g_ab_h[DRIVER_AB].dat |= MISSILE_AB_1;
   }
   else{
-    g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_1;
+  g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_1;
+  }
+
+  if(__RC_ISPRESSED_L1(g_rc_data)){
+  g_ab_h[DRIVER_AB].dat |= MISSILE_AB_2;
+  }
+  else{
+  g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_2;
   }
   
   return EXIT_SUCCESS;
-}
+  }
 */
 /*プライベート 足回りシステム*/
 static

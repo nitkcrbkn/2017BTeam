@@ -42,13 +42,13 @@ typedef enum {
 #define ARM_AB_MAX_COUNT 300
 */
 /*アーム用シリンダ*/
-#define ARM_MOVE_0 (1<<1)
-#define ARM_MOVE_1 (1<<2)
+#define ARM_MOVE (1<<1)
 
 /*ミサイル*/
 /*
-#define MISSILE_AB_0 (1<<3)
-#define MISSILE_AB_1 (1<<4)
+#define MISSILE_AB_0 (1<<2)
+#define MISSILE_AB_1 (1<<3)
+#define MISSILE_AB_2 (1<<4)
 */
 
 #define MD_GAIN ( DD_MD_MAX_DUTY / DD_RC_ANALOG_MAX/3 )
