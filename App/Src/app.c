@@ -106,6 +106,32 @@ static int LEDSystem(void){
   return EXIT_SUCCESS;
 }
 
+static
+int SpinRod(void){
+
+  int target;
+  const tc_const_t tc= {
+    .inc_con = 1000,  //duty上昇時の傾き
+    .dec_con = 1000,  //duty下降時の傾き,一瞬で止まるように設定
+  };
+  
+  unsigned int idx;//インデックス
+  idx = MECHA1_MD2;
+  target = 0;
+  
+  if((__RC_ISPRESSED_R1(g_rc_data)) && !(__RC_ISPRESSED_L1(g_rc_data))) {
+    target = -8000;
+  } else if(__RC_ISPRESSED_R2(g_rc_data)) {
+    target = 8000;
+  } else {
+    target = 0;
+  }
+
+  trapezoidCtrl(target,&g_md_h[idx],&tc);
+    
+  return EXIT_SUCCESS;
+}
+
 static 
 int ABSystem(void){
   
@@ -149,60 +175,12 @@ int suspensionSystem(void){
       m = -x -w;
       break;
 
-      /*４輪オムニ用のプログラム
-	case 0:
-	idx = MECHA1_MD0;
-	m = x -y -w;
-	break;
-
-	case 1:
-	idx = MECHA1_MD1;
-	m = x +y -w;
-	break;
-
-	case 2:
-	idx = MECHA1_MD2;
-	m = -x +y -w;
-	break;
-
-	case 3:
-	idx = MECHA1_MD3;
-	m = -x -y -w;
-	break;
-      */
-
     default:
       return EXIT_FAILURE;
     }
     m *= 75;//モータの出力不足を補う
     trapezoidCtrl(m,&g_md_h[idx],&tc);
   }
-  return EXIT_SUCCESS;
-}
-
-static
-int SpinRod(void){
-
-  int target;
-  const tc_const_t tc= {
-    .inc_con = 1000,  //duty上昇時の傾き
-    .dec_con = 1000,  //duty下降時の傾き,一瞬で止まるように設定
-  };
-  
-  unsigned int idx;//インデックス
-  idx = MECHA1_MD2;
-  target = 0;
-  
-  if((__RC_ISPRESSED_R1(g_rc_data)) && !(__RC_ISPRESSED_L1(g_rc_data))) {
-    target = -8000;
-  } else if(__RC_ISPRESSED_R2(g_rc_data)) {
-    target = 8000;
-  } else {
-    target = 0;
-  }
-
-  trapezoidCtrl(target,&g_md_h[idx],&tc);
-    
   return EXIT_SUCCESS;
 }
 
