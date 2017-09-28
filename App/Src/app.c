@@ -85,7 +85,7 @@ int appTask(void){
   ret = armAB();
   if(ret){
     return ret;
-     }
+  }
   
   ret = LEDSystem();
   if(ret){
@@ -115,12 +115,13 @@ static int LEDSystem(void){
 }
 
 /*アーム展開機構*/
+
 static
 int armAB(void){
   
   static int open_count = ARM_AB_MAX_COUNT;
    
-  if((__RC_ISPRESSED_UP(g_rc_data)) && (__RC_ISPRESSED_TRIANGLE(g_rc_data))){
+  if(__RC_ISPRESSED_TRIANGLE(g_rc_data)){
     open_count = 0;
   }
 
@@ -208,11 +209,11 @@ int rotationarm(void){
 
   idx = MECHA1_MD4;
 
-  if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_L1(g_rc_data))){
+  if((__RC_ISPRESSED_L1(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data))){
     target = 0;
-  }else if((__RC_ISPRESSED_L1(g_rc_data)) && !(__RC_ISPRESSED_R1(g_rc_data))){
+  }else if((__RC_ISPRESSED_L2(g_rc_data)) && !(__RC_ISPRESSED_L1(g_rc_data))){
     target = 8000;
-  }else if((__RC_ISPRESSED_R1(g_rc_data)) && !(__RC_ISPRESSED_L1(g_rc_data))){
+  }else if((__RC_ISPRESSED_L1(g_rc_data)) && !(__RC_ISPRESSED_L2(g_rc_data))){
     target = -8000;
   }else{
     target = 0;
