@@ -18,13 +18,13 @@ int LEDSystem(void);
 /*
 static
 int armAB(void);
-*/
+
 static
 int moveAB(void);
-/*
+*/
 static
 int missileAB(void);
-*/
+
 static
 int changeOpeMode(void);
 
@@ -89,17 +89,17 @@ int appTask(void){
   if(ret){
     return ret;
   }
-  */
+  
   ret = moveAB();
   if(ret){
     return ret;
   }
-  /*
+  */
   ret = missileAB();
   if(ret){
     return ret;
   }
-  */
+  
   ret = LEDSystem();
   if(ret){
     return ret;
@@ -143,6 +143,7 @@ int armAB(void){
 }
 */
 /*アーム移動機構*/  
+/*
 static
 int moveAB(void){
   static int switch_AB = 0;
@@ -159,36 +160,36 @@ int moveAB(void){
   
   return EXIT_SUCCESS;
 }
-
+*/
 /*ミサイル*/
-/*
-  static
-  int missileAB(void){
+
+static
+int missileAB(void){
     
   if(__RC_ISPRESSED_R2(g_rc_data)){
-  g_ab_h[DRIVER_AB].dat |= MISSILE_AB_0;
+    g_ab_h[DRIVER_AB].dat |= MISSILE_AB_0;
   }
   else{
-  g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_0;
+    g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_0;
   }
-  
+  /*
   if(__RC_ISPRESSED_L2(g_rc_data)){
-  g_ab_h[DRIVER_AB].dat |= MISSILE_AB_1;
+    g_ab_h[DRIVER_AB].dat |= MISSILE_AB_1;
   }
   else{
-  g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_1;
+    g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_1;
   }
 
   if(__RC_ISPRESSED_L1(g_rc_data)){
-  g_ab_h[DRIVER_AB].dat |= MISSILE_AB_2;
+    g_ab_h[DRIVER_AB].dat |= MISSILE_AB_2;
   }
   else{
-  g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_2;
+    g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_2;
   }
-  
+  */
   return EXIT_SUCCESS;
-  }
-*/
+}
+
 /*プライベート 足回りシステム*/
 static
 int suspensionSystem(void){
