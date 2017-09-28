@@ -9,12 +9,12 @@ DD_MDHand_t g_md_h[DD_NUM_OF_MD] = {
   {
     .add  = 0x10, //address 
     .duty = 0, //default duty
-    .mode = D_MMOD_BRAKE, //mode
+    .mode = D_MMOD_FREE, //mode
   },
   {
     .add  = 0x11,
     .duty = 0, 
-    .mode = D_MMOD_BRAKE,
+    .mode = D_MMOD_FREE,
   }, 
 };
 #endif

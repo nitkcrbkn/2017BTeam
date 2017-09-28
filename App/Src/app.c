@@ -101,18 +101,28 @@ static int LEDSystem(void){
 
 static
 int ASSystem(void) {
-  static int BLOW_AIR = 0;
+  static int BLOW_SYLINDER = 0;
+  static int SWING_SWORD = 0;
 
   if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_L1(g_rc_data))) {
-    if(BLOW_AIR == 0) {
+    if(BLOW_SYLINDER == 0) {
       g_ab_h[0].dat ^= ON_AB0;
-      //g_ab_h[0].dat ^= ON_AB1;
-      BLOW_AIR = 1;
+      g_ab_h[0].dat ^= ON_AB1;
+      BLOW_SYLINDER = 1;
     }
   } else {
-    BLOW_AIR = 0;
+    BLOW_SYLINDER = 0;
   }
-    
+
+  if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data))) {
+    if(SWING_SWORD == 0) {
+      g_ab_h[0].dat ^= ON_AB2;
+      SWING_SWORD = 1;
+    }
+  } else {
+    SWING_SWORD = 0;
+  }
+
   return EXIT_SUCCESS;
 }
 
@@ -121,8 +131,8 @@ static
 int suspensionSystem(void){
   
   const tc_const_t tc= {
-    .inc_con = 400,  //duty上昇時の傾き
-    .dec_con = 400  //duty下降時の傾き
+    .inc_con = 100,  //duty上昇時の傾き
+    .dec_con = 100  //duty下降時の傾き
   };
   
   const int num_of_motor = 2;//モータの個数
@@ -172,8 +182,8 @@ static
 int suspensionSystem_fast(void){
   
   const tc_const_t tc= {
-    .inc_con = 400,  //duty上昇時の傾き
-    .dec_con = 400  //duty下降時の傾き
+    .inc_con = 100,  //duty上昇時の傾き
+    .dec_con = 100  //duty下降時の傾き
   };
   
   const int num_of_motor = 2;//モータの個数
@@ -219,7 +229,6 @@ int suspensionSystem_fast(void){
     default:
       return EXIT_FAILURE;
     }
-
     trapezoidCtrl(duty,&g_md_h[idx],&tc);
   }
 
