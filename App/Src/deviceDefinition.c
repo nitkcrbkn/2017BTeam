@@ -15,19 +15,7 @@ DD_MDHand_t g_md_h[DD_NUM_OF_MD] = {
     .add  = 0x11,
     .duty = 0, 
     .mode = D_MMOD_BRAKE,
-  },
-  /*
-    {
-    .add  = 0x12,
-    .duty = 0,
-    .mode = D_MMOD_BRAKE,
-    },
-    { 
-    .add  = 0x13,
-    .duty = 0,
-    .mode = D_MMOD_BRAKE,
-    },
-  */  
+  }, 
 };
 #endif
 #if DD_NUM_OF_AB

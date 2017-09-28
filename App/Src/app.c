@@ -11,11 +11,11 @@
 #include <trapezoid_ctrl.h>
 
 static
-int suspensionSystem(void);
-static
 int ASSystem(void);
 static
 int LEDSystem(void);
+static
+int suspensionSystem(void);
 static
 int changeOpeMode(void);
 static
@@ -67,19 +67,18 @@ int appTask(void){
     break;
   }
 
-  ret = ASSystem();
+  ret = changeOpeMode();
   if(ret) {
-    return ret;
-  }
-  
-  
-  ret = LEDSystem();
-  if(ret){
     return ret;
   }
 
-  ret = changeOpeMode();
+  ret = ASSystem();
   if(ret) {
+    return ret;
+  }  
+  
+  ret = LEDSystem();
+  if(ret){
     return ret;
   }
   
@@ -104,26 +103,10 @@ static
 int ASSystem(void) {
   static int BLOW_AIR = 0;
 
-  /*
-    if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data)) && (BLOW_AIR == 1)){  //空気が送られていれば切る
-    BLOW_AIR = 0;
-    g_ab_h[0].dat &= ~ON_AB0;
-    g_ab_h[0].dat &= ~ON_AB1;
-    }else if(BLOW_AIR == 1) { //BLOW_AIRに1が代入されていればそれを保持
-    g_ab_h[0].dat |= ON_AB0;
-    g_ab_h[0].dat |= ON_AB1;
-    }else if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_L1(g_rc_data))) {  //R1,L1を押せばBLOW_AIRに1を代入
-    BLOW_AIR = 1;
-    
-    g_ab_h[0].dat |= ON_AB0;
-    g_ab_h[0].dat |= ON_AB1;
-    }
-  */
-
   if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_L1(g_rc_data))) {
     if(BLOW_AIR == 0) {
       g_ab_h[0].dat ^= ON_AB0;
-      g_ab_h[0].dat ^= ON_AB1;
+      //g_ab_h[0].dat ^= ON_AB1;
       BLOW_AIR = 1;
     }
   } else {
