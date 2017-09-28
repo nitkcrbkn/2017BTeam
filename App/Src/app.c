@@ -15,16 +15,16 @@ int suspensionSystem(void);
 
 static
 int LEDSystem(void);
-
+/*
 static
 int armAB(void);
-
+*/
 static
 int moveAB(void);
-
+/*
 static
 int missileAB(void);
-
+*/
 static
 int changeOpeMode(void);
 
@@ -84,22 +84,22 @@ int appTask(void){
   
   default:return EXIT_FAILURE;
   }
-
+  /*
   ret = armAB();
   if(ret){
     return ret;
   }
-
+  */
   ret = moveAB();
   if(ret){
     return ret;
   }
-
+  /*
   ret = missileAB();
   if(ret){
     return ret;
   }
-  
+  */
   ret = LEDSystem();
   if(ret){
     return ret;
@@ -123,6 +123,7 @@ static int LEDSystem(void){
 }
 
 /*アーム展開機構*/
+/*
 static
 int armAB(void){
   static int open_count = ARM_AB_MAX_COUNT;
@@ -140,7 +141,7 @@ int armAB(void){
 
   return EXIT_SUCCESS;
 }
-
+*/
 /*アーム移動機構*/  
 static
 int moveAB(void){
@@ -171,6 +172,7 @@ int moveAB(void){
 }
 
 /*ミサイル*/
+/*
 static
 int missileAB(void){
     
@@ -190,7 +192,7 @@ int missileAB(void){
   
   return EXIT_SUCCESS;
 }
-
+*/
 /*プライベート 足回りシステム*/
 static
 int suspensionSystem(void){
