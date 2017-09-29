@@ -12,8 +12,8 @@
 
 static
 int suspensionSystem(void);
-//static 
-//int ABSystem(void);
+static 
+int ABSystem(void);
 static
 int LEDSystem(void);
 static
@@ -69,12 +69,10 @@ int appTask(void){
     break;
   }
 
-  /*
   ret = ABSystem();
   if(ret){
     return ret;
   }
-  */
 
   ret = LEDSystem();
   if(ret){
@@ -108,6 +106,18 @@ static int LEDSystem(void){
   return EXIT_SUCCESS;
 }
 
+static 
+int ABSystem(void){
+  
+  if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_L1(g_rc_data))) {
+    g_ab_h[0].dat |= ON_AB0;
+  } else {
+    g_ab_h[0].dat &= ~ON_AB0;
+  }
+  
+  return EXIT_SUCCESS;
+}
+
 static
 int SpinRod(void){
 
@@ -134,20 +144,6 @@ int SpinRod(void){
   return EXIT_SUCCESS;
 }
 
-/*
-static 
-int ABSystem(void){
-  
-  if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_L1(g_rc_data))) {
-    g_ab_h[0].dat |= ON_AB0;
-  } else {
-    g_ab_h[0].dat &= ~ON_AB0;
-  }
-  
-  return EXIT_SUCCESS;
-}
-*/
-
 /*プライベート 足回りシステム*/
 static
 int suspensionSystem(void){
@@ -160,7 +156,7 @@ int suspensionSystem(void){
   const int num_of_motor = 2;//モータの個数
   //int rc_analogdata;//アナログデータ
   unsigned int idx;//インデックス
-  int i,m,x,w;//y,w;
+  int i,duty,x,w;//y,w;
   x = -DD_RCGetLY(g_rc_data);
   //y = -DD_RCGetLX(g_rc_data);
   w = -DD_RCGetRX(g_rc_data);
@@ -171,19 +167,19 @@ int suspensionSystem(void){
     switch (i) {
     case 0:
       idx = MECHA1_MD0;
-      m = x -w;
+      duty = x -w;
       break;
 
     case 1:
       idx = MECHA1_MD1;
-      m = -x -w;
+      duty = -x -w;
       break;
 
     default:
       return EXIT_FAILURE;
     }
-    m *= 75;//モータの出力不足を補う
-    trapezoidCtrl(m,&g_md_h[idx],&tc);
+    duty *= 75;//モータの出力不足を補う
+    trapezoidCtrl(duty,&g_md_h[idx],&tc);
   }
   return EXIT_SUCCESS;
 }
@@ -211,7 +207,7 @@ int suspensionSystem_fast(void){
   const int num_of_motor = 2;//モータの個数
   //int rc_analogdata;//アナログデータ
   unsigned int idx;//インデックス
-  int i,m,x,w,adjust;
+  int i,duty,x,w,adjust;
   x = -DD_RCGetLY(g_rc_data);
   //y = -DD_RCGetLX(g_rc_data);
   w = -DD_RCGetRX(g_rc_data);
@@ -220,31 +216,31 @@ int suspensionSystem_fast(void){
     switch (i) {
     case 0:
       idx = MECHA1_MD0;
-      m = x -w;
-      m *= 75;//モータの出力不足を補う
-      if(abs(m) <= 4800) {//dutyが低かったら引き上げ
-	m *= 2;
-      } else if(abs(m) >= 9500) {//dutyが9500を超えたら9500以下になるよう調整
-	adjust = abs(m) - 9500;
-	if(m > 0) {
-	  m -= adjust;
-	} else if(m < 0) {
-	  m += adjust;
+      duty = x -w;
+      duty *= 75;//モータの出力不足を補う
+      if(abs(duty) <= 4800) {//dutyが低かったら引き上げ
+	duty *= 2;
+      } else if(abs(duty) >= 9500) {//dutyが9500を超えたら9500以下になるよう調整
+	adjust = abs(duty) - 9500;
+	if(duty > 0) {
+	  duty -= adjust;
+	} else if(duty < 0) {
+	  duty += adjust;
 	}
       }
       break;
     case 1:
       idx = MECHA1_MD1;
-      m = -x -w;
-      m *= 75;//モータの出力不足を補う
-      if(abs(m) <= 4800) {
-	m *= 2;
-      } else if(abs(m) >= 9500) {
-	adjust = abs(m) - 9500;
-	if(m > 0) {
-	  m -= adjust;
-	} else if(m < 0) {
-	  m += adjust;
+      duty = -x -w;
+      duty *= 75;//モータの出力不足を補う
+      if(abs(duty) <= 4800) {
+	duty *= 2;
+      } else if(abs(duty) >= 9500) {
+	adjust = abs(duty) - 9500;
+	if(duty > 0) {
+	  duty -= adjust;
+	} else if(duty < 0) {
+	  duty += adjust;
 	}
       }
       break;
@@ -253,7 +249,7 @@ int suspensionSystem_fast(void){
       return EXIT_FAILURE;
     }
 
-    trapezoidCtrl(m,&g_md_h[idx],&tc);
+    trapezoidCtrl(duty,&g_md_h[idx],&tc);
   }
 
   return EXIT_SUCCESS;
