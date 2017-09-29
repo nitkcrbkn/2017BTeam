@@ -101,20 +101,29 @@ static int LEDSystem(void){
 
 static
 int ASSystem(void) {
-  static int BLOW_SYLINDER = 0;
+  static int BLOW_SYLINDER_FRONT = 0;
+  static int BLOW_SYLINDER_BACK = 0;
   static int SWING_SWORD = 0;
 
   if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_L1(g_rc_data))) {
-    if(BLOW_SYLINDER == 0) {
+    if(BLOW_SYLINDER_FRONT == 0) {
       g_ab_h[0].dat ^= ON_AB0;
-      g_ab_h[0].dat ^= ON_AB1;
-      BLOW_SYLINDER = 1;
+      BLOW_SYLINDER_FRONT = 1;
     }
   } else {
-    BLOW_SYLINDER = 0;
+    BLOW_SYLINDER_FRONT = 0;
   }
 
   if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data))) {
+    if(BLOW_SYLINDER_BACK == 0) {
+      g_ab_h[0].dat ^= ON_AB1;
+      BLOW_SYLINDER_BACK = 1;
+    }
+  } else {
+    BLOW_SYLINDER_BACK = 0;
+  }
+
+  if(__RC_ISPRESSED_CIRCLE(g_rc_data)) {
     if(SWING_SWORD == 0) {
       g_ab_h[0].dat ^= ON_AB2;
       SWING_SWORD = 1;
