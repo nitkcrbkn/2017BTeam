@@ -211,9 +211,9 @@ int rotationarm(void){
 
   if((__RC_ISPRESSED_L1(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data))){
     target = 0;
-  }else if((__RC_ISPRESSED_L1(g_rc_data)) && !(__RC_ISPRESSED_L1(g_rc_data))){
+  }else if((__RC_ISPRESSED_L1(g_rc_data)) && !(__RC_ISPRESSED_L2(g_rc_data))){
     target = 8000;
-  }else if((__RC_ISPRESSED_L2(g_rc_data)) && !(__RC_ISPRESSED_L2(g_rc_data))){
+  }else if((__RC_ISPRESSED_L2(g_rc_data)) && !(__RC_ISPRESSED_L1(g_rc_data))){
     target = -8000;
   }else{
     target = 0;
