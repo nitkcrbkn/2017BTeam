@@ -31,7 +31,6 @@ int appInit(void);
 #define MECHA1_MD0 0 //駆動左側のモータ
 #define MECHA1_MD1 1 //駆動右側のモータ
 #define MECHA1_MD2 2 //竿を降る機構
-//#define MECHA1_MD3 3
 
 #define CENTRAL_THRESHOLD 4
 
@@ -46,6 +45,8 @@ typedef enum{
 #define ON_AB2 (1<<2) //0x04
 #define ON_AB3 (1<<3) //0x08
 #define ON_AB4 (1<<4) //0x10
+
+#define NO_BLOW 0
 
 #define MD_GAIN ( DD_MD_MAX_DUTY / DD_RC_ANALOG_MAX )
 
