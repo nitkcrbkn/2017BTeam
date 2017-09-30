@@ -46,7 +46,7 @@ typedef enum{
 #define ON_AB3 (1<<3) //0x08
 #define ON_AB4 (1<<4) //0x10
 
-#define NO_BLOW 0
+#define NO_BLOW 1000
 
 #define MD_GAIN ( DD_MD_MAX_DUTY / DD_RC_ANALOG_MAX )
 

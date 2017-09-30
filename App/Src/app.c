@@ -108,13 +108,18 @@ static int LEDSystem(void){
 
 static 
 int ABSystem(void){
-  
+  static int COUNT_BLOW = NO_BLOW; //NO_BLOW = 300
+
   if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_L1(g_rc_data))) {
+    COUNT_BLOW = 0;
+  }
+  if(COUNT_BLOW < NO_BLOW) {
     g_ab_h[0].dat |= ON_AB0;
+    COUNT_BLOW++;
   } else {
     g_ab_h[0].dat &= ~ON_AB0;
   }
-  
+    
   return EXIT_SUCCESS;
 }
 
@@ -156,9 +161,8 @@ int suspensionSystem(void){
   const int num_of_motor = 2;//モータの個数
   //int rc_analogdata;//アナログデータ
   unsigned int idx;//インデックス
-  int i,duty,x,w;//y,w;
+  int i,duty,x,w;
   x = -DD_RCGetLY(g_rc_data);
-  //y = -DD_RCGetLX(g_rc_data);
   w = -DD_RCGetRX(g_rc_data);
   
   //for each motor
@@ -209,7 +213,6 @@ int suspensionSystem_fast(void){
   unsigned int idx;//インデックス
   int i,duty,x,w,adjust;
   x = -DD_RCGetLY(g_rc_data);
-  //y = -DD_RCGetLX(g_rc_data);
   w = -DD_RCGetRX(g_rc_data);
   
   for (i=0; i<num_of_motor; i++) {
