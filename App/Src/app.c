@@ -16,23 +16,14 @@ int suspensionSystem(void);
 static
 int LEDSystem(void);
 /*
-static
-int armAB(void);
+  static
+  int armAB(void);
 
-static
-int moveAB(void);
+  static
+  int moveAB(void);
 */
 static
 int missileAB(void);
-
-static
-int changeOpeMode(void);
-
-static
-ope_mode_t g_ope_mode = OPE_MODE_N;
-
-static 
-int transamSystem(void);
 
 /*メモ
  *g_ab_h...ABのハンドラ
@@ -62,38 +53,21 @@ int appTask(void){
   
   /*それぞれの機構ごとに処理をする*/
   /*途中必ず定数回で終了すること。*/
-  ret = changeOpeMode();
-  if(ret){
-    return ret;
-  }
 
-  switch(g_ope_mode){
-  case OPE_MODE_N:
-    ret = suspensionSystem();
+  ret = suspensionSystem();
     if(ret){
       return ret;
     }
-    break;
-  
-  case OPE_MODE_T:
-    ret = transamSystem();
-    if(ret){
-      return ret;
-    }
-    break;
-  
-  default:return EXIT_FAILURE;
-  }
   /*
-  ret = armAB();
-  if(ret){
+    ret = armAB();
+    if(ret){
     return ret;
-  }
+    }
   
-  ret = moveAB();
-  if(ret){
+    ret = moveAB();
+    if(ret){
     return ret;
-  }
+    }
   */
   ret = missileAB();
   if(ret){
@@ -124,42 +98,42 @@ static int LEDSystem(void){
 
 /*アーム展開機構*/
 /*
-static
-int armAB(void){
+  static
+  int armAB(void){
   static int open_count = ARM_AB_MAX_COUNT;
   
   if(__RC_ISPRESSED_TRIANGLE(g_rc_data)){
-    open_count = 0;
+  open_count = 0;
   }
   
   if(ARM_AB_MAX_COUNT > open_count){
-    g_ab_h[DRIVER_AB].dat |= ARM_AB;
-    open_count++;
+  g_ab_h[DRIVER_AB].dat |= ARM_AB;
+  open_count++;
   }else{
-    g_ab_h[DRIVER_AB].dat &= ~ARM_AB;
+  g_ab_h[DRIVER_AB].dat &= ~ARM_AB;
   }
 
   return EXIT_SUCCESS;
-}
+  }
 */
 /*アーム移動機構*/  
 /*
-static
-int moveAB(void){
+  static
+  int moveAB(void){
   static int switch_AB = 0;
 
   if(__RC_ISPRESSED_R1(g_rc_data)){
-    if(switch_AB == 0){
-      g_ab_h[DRIVER_AB].dat ^= ARM_MOVE;
-      switch_AB = 1;
-    }
+  if(switch_AB == 0){
+  g_ab_h[DRIVER_AB].dat ^= ARM_MOVE;
+  switch_AB = 1;
+  }
   }
   else{
-    switch_AB = 0;
+  switch_AB = 0;
   }
   
   return EXIT_SUCCESS;
-}
+  }
 */
 /*ミサイル*/
 
@@ -173,19 +147,19 @@ int missileAB(void){
     g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_0;
   }
   /*
-  if(__RC_ISPRESSED_L2(g_rc_data)){
+    if(__RC_ISPRESSED_L2(g_rc_data)){
     g_ab_h[DRIVER_AB].dat |= MISSILE_AB_1;
-  }
-  else{
+    }
+    else{
     g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_1;
-  }
+    }
 
-  if(__RC_ISPRESSED_L1(g_rc_data)){
+    if(__RC_ISPRESSED_L1(g_rc_data)){
     g_ab_h[DRIVER_AB].dat |= MISSILE_AB_2;
-  }
-  else{
+    }
+    else{
     g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_2;
-  }
+    }
   */
   return EXIT_SUCCESS;
 }
@@ -193,74 +167,6 @@ int missileAB(void){
 /*プライベート 足回りシステム*/
 static
 int suspensionSystem(void){
-  const tc_const_t tc ={
-    .inc_con = 300,//DUTY上限時の傾き
-    .dec_con = 400//　　下限時
-  };
-  const int num_of_motor = 3;/*モータの個数*/
-  unsigned int idx;/*インデックス*/
-  int m,x,y,w;
-  int i;
-
-  if(abs(DD_RCGetLX(g_rc_data))<CENTRAL_THRESHOLD){
-    y = 0;
-  }else{
-    y = DD_RCGetLX(g_rc_data);
-  }
-
-  if(abs(DD_RCGetLY(g_rc_data))<CENTRAL_THRESHOLD){
-    x = 0;
-  }else{
-    x = -DD_RCGetLY(g_rc_data);
-  }
-
-  if(abs(DD_RCGetRX(g_rc_data))<CENTRAL_THRESHOLD){
-    w = 0;
-  }else{
-    w = -DD_RCGetRX(g_rc_data);
-  }
-
-  
-  /*for each motor*/
-  for(i=0;i<num_of_motor;i++){
-    /*それぞれの差分*/
-    switch(i){
-    case 0:
-      idx = MECHA1_MD1;
-      m = -2*1/SR_SIX*y - 1*1/SR_THREE*w;
-      break;
-    case 1:
-      idx = MECHA1_MD2;
-      m = -1*1/SR_TWO*x + 1*1/SR_SIX*y - 1*1/SR_THREE*w;
-      break;
-    case 2:
-      idx = MECHA1_MD3;
-      m = 1*1/SR_TWO*x + 1*1/SR_SIX*y - 1*1/SR_THREE*w;
-      break;
-    default:
-      return EXIT_FAILURE;
-    }
-    m *= 95;
-    trapezoidCtrl(m,&g_md_h[idx],&tc);
-  }
-
-  return EXIT_SUCCESS;
-  
-}
-
-/*モード変更*/
-static int  changeOpeMode(void){
-  if(__RC_ISPRESSED_CROSS(g_rc_data)){
-    g_ope_mode = OPE_MODE_T;
-  }else if(__RC_ISPRESSED_CIRCLE(g_rc_data)){
-    g_ope_mode = OPE_MODE_N;
-  }
-
-  return EXIT_SUCCESS;
-}
-
-/*トランザムシステム*/
-static int transamSystem(void){
   const tc_const_t tc ={
     .inc_con = 300,//DUTY上限時の傾き
     .dec_con = 400//　　下限時
@@ -345,5 +251,5 @@ static int transamSystem(void){
   }
   
   return EXIT_SUCCESS;
-  
+
 }
