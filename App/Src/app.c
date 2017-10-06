@@ -191,8 +191,8 @@ static
 int suspensionSystem_fast(void){
   
   const tc_const_t tc= {
-    .inc_con = 200,  //duty上昇時の傾き
-    .dec_con = 200  //duty下降時の傾き
+    .inc_con = 150,  //duty上昇時の傾き
+    .dec_con = 150  //duty下降時の傾き
   };
   
   const int num_of_motor = 2;//モータの個数
