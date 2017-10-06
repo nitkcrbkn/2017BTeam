@@ -114,10 +114,10 @@ int ABSystem(void){
     COUNT_BLOW = 0;
   }
   if(COUNT_BLOW < NO_BLOW) {
-    g_ab_h[0].dat |= ON_AB0;
+    g_ab_h[0].dat |= ON_AB1;
     COUNT_BLOW++;
   } else {
-    g_ab_h[0].dat &= ~ON_AB0;
+    g_ab_h[0].dat &= ~ON_AB1;
   }
     
   return EXIT_SUCCESS;
