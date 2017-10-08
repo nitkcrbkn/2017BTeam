@@ -200,7 +200,8 @@ int suspensionSystem_fast(void){
       duty *= 75; //モータの出力不足を補う
       if(abs(duty) <= 4800) { //dutyが低かったら引き上げ
 	duty *= 2;
-      } else if(abs(duty) >= 9500) { //dutyが9500を超えたら9500以下になるよう調整
+      }
+      if(abs(duty) >= 9500) { //dutyが9500を超えたら9500以下になるよう調整
 	adjust = abs(duty) - 9500;
 	if(duty > 0) {
 	  duty -= adjust;
@@ -209,13 +210,15 @@ int suspensionSystem_fast(void){
 	}
       }
       break;
+      
     case 1:
       idx = MECHA1_MD1; //右の駆動
       duty = -x -w;
       duty *= 75; //モータの出力不足を補う
       if(abs(duty) <= 4800) {
 	duty *= 2;
-      } else if(abs(duty) >= 9500) {
+      }
+      if(abs(duty) >= 9500) {
 	adjust = abs(duty) - 9500;
 	if(duty > 0) {
 	  duty -= adjust;
