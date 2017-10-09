@@ -241,8 +241,8 @@ int changeOpeMode(void){
 static
 int transamSystem(void){
   const tc_const_t tc_bC1 ={
-    .inc_con = 300,//DUTY上限時の傾き
-    .dec_con = 400//　　下限時
+    .inc_con = 100,//DUTY上限時の傾き
+    .dec_con = 200//　　下限時
   };
 
   const tc_const_t tc_bC2 ={
@@ -251,8 +251,8 @@ int transamSystem(void){
   };
 
   const tc_const_t tc_bC3 ={
-    .inc_con = 100,//DUTY上限時の傾き
-    .dec_con = 200//　　下限時
+    .inc_con = 300,//DUTY上限時の傾き
+    .dec_con = 400//　　下限時
   };
 
   const int num_of_motor = 3;/*モータの個数*/
@@ -335,10 +335,10 @@ int transamSystem(void){
     if(abs(m) <= 3000){
       trapezoidCtrl(m,&g_md_h[idx],&tc_bC1);
     }
-    else if(abs(m) <= 6000){
+    else if(abs(m) > 3000 && abs(m) <= 6000){
       trapezoidCtrl(m,&g_md_h[idx],&tc_bC2);
     }
-    else if(abs(m) <= 9000){
+    else if(abs(m) > 6000 && abs(m) <= 9500){
       trapezoidCtrl(m,&g_md_h[idx],&tc_bC3);
     }
  
