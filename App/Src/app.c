@@ -173,25 +173,25 @@ int suspensionSystem(void){
   };
   const int num_of_motor = 3;/*モータの個数*/
   unsigned int idx;/*インデックス*/
-  int m,x,y,w,adjust;
+  int m,x,y,w;
   int i;
   
   if(abs(DD_RCGetLX(g_rc_data))<CENTRAL_THRESHOLD){
     y = 0;
   }else{
-    y = DD_RCGetLX(g_rc_data);
+    y = -DD_RCGetLX(g_rc_data);
   }
 
   if(abs(DD_RCGetLY(g_rc_data))<CENTRAL_THRESHOLD){
     x = 0;
   }else{
-    x = -DD_RCGetLY(g_rc_data);
+    x = DD_RCGetLY(g_rc_data);
   }
   
   if(abs(DD_RCGetRX(g_rc_data))<CENTRAL_THRESHOLD){
     w = 0;
   }else{
-    w = -DD_RCGetRX(g_rc_data);
+    w = DD_RCGetRX(g_rc_data);
   }
   
   
