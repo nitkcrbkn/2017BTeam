@@ -28,6 +28,12 @@ int appInit(void);
 #define SR_THREE 1.7320 //ルート3
 #define SR_SIX 2.4494 //ルート6
 
+/*モード変更*/
+typedef enum{
+  OPE_MODE_N,
+  OPE_MODE_F,
+} ope_mode_t;
+
 #define DRIVER_AB 0
 
 /*アーム展開機構*/
