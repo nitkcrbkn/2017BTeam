@@ -26,6 +26,9 @@ static
 int missileAB(void);
 
 static
+int armchain(void);
+
+static
 int changeOpeMode(void);
 
 static
@@ -99,6 +102,11 @@ int appTask(void){
       return ret;
     }
     
+  ret = armchain();
+  if(ret){
+    return ret;
+  }
+
   ret = LEDSystem();
   if(ret){
     return ret;
@@ -127,7 +135,7 @@ static
 int armAB(void){
   static int open_count = ARM_AB_MAX_COUNT;
   
-  if(__RC_ISPRESSED_TRIANGLE(g_rc_data)){
+  if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_TRIANGLE(g_rc_data))){
     open_count = 0;
   }
   
@@ -147,7 +155,7 @@ static
 int moveAB(void){
   static int switch_AB = 0;
 
-  if(__RC_ISPRESSED_R1(g_rc_data)){
+  if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L1(g_rc_data))){
     if(switch_AB == 0){
       g_ab_h[DRIVER_AB].dat ^= ARM_MOVE;
       switch_AB = 1;
@@ -160,12 +168,20 @@ int moveAB(void){
   return EXIT_SUCCESS;
 }
 
-/*ミサイル*/
+/*アーム制御*/
+static
+int armchain(void){
 
+  g_ab_h[DRIVER_AB].dat |= CHAIN_ARM_AB;
+
+  return EXIT_SUCCESS;
+}
+
+/*ミサイル*/
 static
 int missileAB(void){
     
-  if(__RC_ISPRESSED_R2(g_rc_data)){
+  if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data))){
     g_ab_h[DRIVER_AB].dat |= MISSILE_AB_0;
   }
   else{

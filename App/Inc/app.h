@@ -44,6 +44,9 @@ typedef enum{
 /*アーム用シリンダ*/
 #define ARM_MOVE (1<<1)
 
+/*アーム制御用*/
+#define CHAIN_ARM_AB (1<<3)
+
 /*ミサイル*/
 #define MISSILE_AB_0 (1<<2)
 /*
