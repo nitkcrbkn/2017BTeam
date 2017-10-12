@@ -78,27 +78,32 @@ int appTask(void){
     }
     break;
   }
- 
-    ret = armAB();
-    if(ret){
-      return ret;
-    }
-    
-    ret = moveAB();
-    if(ret){
-      return ret;
-    }
-    
-    ret = missileAB();
-    if(ret){
+
+  ret = changeOpeMode();
+  if(ret){
+    return ret;
+  }
+
+  ret = armAB();
+  if(ret){
       return ret;
   }
     
-    ret = LEDSystem();
-    if(ret){
-    return ret;
+  ret = moveAB();
+  if(ret){
+      return ret;
+  }
+  
+  ret = missileAB();
+  if(ret){
+      return ret;
     }
     
+  ret = LEDSystem();
+  if(ret){
+    return ret;
+  }
+  
   return EXIT_SUCCESS;
 }
 
@@ -199,19 +204,19 @@ int suspensionSystem(void){
   if(abs(DD_RCGetLX(g_rc_data))<CENTRAL_THRESHOLD){
     y = 0;
   }else{
-    y = -DD_RCGetLX(g_rc_data);
+    y = DD_RCGetLX(g_rc_data);
   }
 
   if(abs(DD_RCGetLY(g_rc_data))<CENTRAL_THRESHOLD){
     x = 0;
   }else{
-    x = DD_RCGetLY(g_rc_data);
+    x = -DD_RCGetLY(g_rc_data);
   }
   
   if(abs(DD_RCGetRX(g_rc_data))<CENTRAL_THRESHOLD){
     w = 0;
   }else{
-    w = DD_RCGetRX(g_rc_data);
+    w = -DD_RCGetRX(g_rc_data);
   }
   
   
@@ -271,19 +276,19 @@ int suspensionSystem_F(void){
   if(abs(DD_RCGetLX(g_rc_data))<CENTRAL_THRESHOLD){
     y = 0;
   }else{
-    y = DD_RCGetLX(g_rc_data);
+    y = -DD_RCGetLX(g_rc_data);
   }
 
   if(abs(DD_RCGetLY(g_rc_data))<CENTRAL_THRESHOLD){
     x = 0;
   }else{
-    x = -DD_RCGetLY(g_rc_data);
+    x = DD_RCGetLY(g_rc_data);
   }
   
   if(abs(DD_RCGetRX(g_rc_data))<CENTRAL_THRESHOLD){
     w = 0;
   }else{
-    w = -DD_RCGetRX(g_rc_data);
+    w = DD_RCGetRX(g_rc_data);
   }
   
   
