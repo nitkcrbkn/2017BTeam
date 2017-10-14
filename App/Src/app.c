@@ -21,6 +21,9 @@ static
 int armAB(void);
 
 static
+int rinkarm(void); 
+
+static
 int rotationarm(void);
 
 static
@@ -97,6 +100,11 @@ int appTask(void){
     return ret;
   }
   
+  ret = rinkarm();
+  if(ret){
+    return ret;
+  }
+
   return EXIT_SUCCESS;
 }
 
@@ -195,7 +203,7 @@ int suspensionSystem(void){
 }
 
 
-/*竿回転機構*/
+/*アーム回転機構*/
 static 
 int rotationarm(void){
   
@@ -214,6 +222,34 @@ int rotationarm(void){
   }else if((__RC_ISPRESSED_L1(g_rc_data)) && !(__RC_ISPRESSED_L2(g_rc_data))){
     target = 8000;
   }else if((__RC_ISPRESSED_L2(g_rc_data)) && !(__RC_ISPRESSED_L1(g_rc_data))){
+    target = -8000;
+  }else{
+    target = 0;
+  }
+  trapezoidCtrl(target,&g_md_h[idx],&tc);
+
+  return EXIT_SUCCESS;
+}
+
+/*リンク*/
+static
+int rinkarm(void){
+
+  const tc_const_t tc ={
+    .inc_con = 500, //DUTY上限時の傾き
+    .dec_con = 500, //　　下限時
+  };
+
+  int target;
+  unsigned int idx;
+
+  idx = MECHA1_MD5;
+
+  if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_R2(g_rc_data))){
+    target = 0;
+  }else if((__RC_ISPRESSED_R1(g_rc_data)) && !(__RC_ISPRESSED_R2(g_rc_data))){
+    target = 8000;
+  }else if((__RC_ISPRESSED_R2(g_rc_data)) && !(__RC_ISPRESSED_R1(g_rc_data))){
     target = -8000;
   }else{
     target = 0;
