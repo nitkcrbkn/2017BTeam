@@ -140,10 +140,10 @@ int armAB(void){
   }
   
   if(ARM_AB_MAX_COUNT > open_count){
-    g_ab_h[DRIVER_AB].dat |= ARM_AB;
+    g_ab_h[DRIVER_AB_0].dat |= ARM_AB;
     open_count++;
   }else{
-    g_ab_h[DRIVER_AB].dat &= ~ARM_AB;
+    g_ab_h[DRIVER_AB_0].dat &= ~ARM_AB;
   }
 
   return EXIT_SUCCESS;
@@ -157,7 +157,7 @@ int moveAB(void){
 
   if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L1(g_rc_data))){
     if(switch_AB == 0){
-      g_ab_h[DRIVER_AB].dat ^= ARM_MOVE;
+      g_ab_h[DRIVER_AB_0].dat ^= ARM_MOVE;
       switch_AB = 1;
     }
   }
@@ -172,7 +172,7 @@ int moveAB(void){
 static
 int armchain(void){
 
-  g_ab_h[DRIVER_AB].dat |= CHAIN_ARM_AB;
+  g_ab_h[DRIVER_AB_0].dat |= CHAIN_ARM_AB;
 
   return EXIT_SUCCESS;
 }
@@ -182,26 +182,18 @@ static
 int missileAB(void){
     
   if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data))){
-    g_ab_h[DRIVER_AB].dat |= MISSILE_AB_0;
+    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_0;
+    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_1;
+    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_2;
+    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_3;
   }
   else{
-    g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_0;
+    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_0;
+    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_1;
+    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_2;
+    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_3;
   }
-  /*
-    if(__RC_ISPRESSED_L2(g_rc_data)){
-    g_ab_h[DRIVER_AB].dat |= MISSILE_AB_1;
-    }
-    else{
-    g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_1;
-    }
 
-    if(__RC_ISPRESSED_L1(g_rc_data)){
-    g_ab_h[DRIVER_AB].dat |= MISSILE_AB_2;
-    }
-    else{
-    g_ab_h[DRIVER_AB].dat &= ~MISSILE_AB_2;
-    }
-  */
   return EXIT_SUCCESS;
 }
 

@@ -8,7 +8,7 @@ int appTask(void);
 int appInit(void);
 
 #define DD_NUM_OF_MD 3
-#define DD_NUM_OF_AB 1
+#define DD_NUM_OF_AB 3
 
 #define DD_USE_ENCODER1 0
 #define DD_USE_ENCODER2 0
@@ -34,7 +34,9 @@ typedef enum{
   OPE_MODE_F,
 } ope_mode_t;
 
-#define DRIVER_AB 0
+#define DRIVER_AB_0 0
+#define DRIVER_AB_1 1
+#define DRIVER_AB_2 2
 
 /*アーム展開機構*/
 #define ARM_AB (1<<0)
@@ -45,14 +47,13 @@ typedef enum{
 #define ARM_MOVE (1<<1)
 
 /*アーム制御用*/
-#define CHAIN_ARM_AB (1<<3)
+#define CHAIN_ARM_AB (1<<2)
 
 /*ミサイル*/
-#define MISSILE_AB_0 (1<<2)
-/*
-#define MISSILE_AB_1 (1<<3)
-#define MISSILE_AB_2 (1<<4)
-*/
+#define MISSILE_AB_0 (1<<0)
+#define MISSILE_AB_1 (1<<1)
+#define MISSILE_AB_2 (1<<0)
+#define MISSILE_AB_3 (1<<1)
 
 #define MD_GAIN ( DD_MD_MAX_DUTY / DD_RC_ANALOG_MAX/3 )
 
