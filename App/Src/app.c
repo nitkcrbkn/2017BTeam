@@ -100,7 +100,7 @@ int appTask(void){
   ret = missileAB();
   if(ret){
       return ret;
-    }
+  }
     
   ret = armchain();
   if(ret){
