@@ -209,7 +209,7 @@ int rotationarm(void){
   
   const tc_const_t tc ={
     .inc_con = 500, //DUTY上限時の傾き
-    .dec_con = 500, //　　下限時
+    .dec_con = 500 //　　下限時
   };
 
   int target;
