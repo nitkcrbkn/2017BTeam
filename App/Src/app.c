@@ -194,40 +194,6 @@ int missileAB(void){
     g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_3;
   }
 
-  const tc_const_t tc ={
-    .inc_con = 300,//DUTY上限時の傾き
-    .dec_con = 400,//　　下限時
-  };
-  const int num_of_motor = 3;/*モータの個数*/
-  unsigned int idx;/*インデックス*/
-  int i,m;
-
-  if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data))){
-    
-  /*for each motor*/
-  for(i=0;i<num_of_motor;i++){
-    /*それぞれの差分*/
-    switch(i){
-    case 0:
-      idx = MECHA1_MD1;
-      m = 4875;
-      break;
-    case 1:
-      idx = MECHA1_MD2;
-      m = -2375;
-      break;
-    case 2:
-      idx = MECHA1_MD3;
-      m = -2375;
-      break;
-    default:
-      return EXIT_FAILURE;
-    }
-    trapezoidCtrl(m,&g_md_h[idx],&tc);
-  }
-  }
-
-
   return EXIT_SUCCESS;
 }
 
