@@ -180,13 +180,95 @@ int armchain(void){
 /*ミサイル*/
 static
 int missileAB(void){
+
+  const tc_const_t tc ={
+    .inc_con = 300,//DUTY上限時の傾き
+    .dec_con = 400//　　下限時
+  };
+  const int num_of_motor = 3;/*モータの個数*/
+  unsigned int idx;/*インデックス*/
+  int m,i,w;
+  
     
   if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data))){
     g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_0;
     g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_1;
     g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_2;
     g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_3;
+
+    for(w=0;w<3;w++){
+      if(w==0){
+	/*for each motor*/
+	for(i=0;i<num_of_motor;i++){
+	  /*それぞれの差分*/
+	  switch(i){
+	  case 0:
+	    idx = MECHA1_MD1;
+	    m = 1500;
+	    break;
+	  case 1:
+	    idx = MECHA1_MD2;
+	    m = -1500;
+	    break;
+	  case 2:
+	    idx = MECHA1_MD3;
+	    m = -1500;
+	    break;
+	  default:
+	    return EXIT_FAILURE;
+	  }
+	}
+      }
+      else if(w==1){
+	for(i=0;i<num_of_motor;i++){
+	  /*それぞれの差分*/
+	  switch(i){
+	  case 0:
+	    idx = MECHA1_MD1;
+	    m = 2500;
+	    break;
+	  case 1:
+	    idx = MECHA1_MD2;
+	    m = -2500;
+	    break;
+	  case 2:
+	    idx = MECHA1_MD3;
+	    m = -2500;
+	    break;
+	  default:
+	    return EXIT_FAILURE;
+	  }
+	}
+      }
+
+      else if(w==2){
+	for(i=0;i<num_of_motor;i++){
+	  /*それぞれの差分*/
+	  switch(i){
+	  case 0:
+	    idx = MECHA1_MD1;
+	    m = 3500;
+	    break;
+	  case 1:
+	    idx = MECHA1_MD2;
+	    m = -3500;
+	    break;
+	  case 2:
+	    idx = MECHA1_MD3;
+	    m = -3500;
+	    break;
+	  default:
+	    return EXIT_FAILURE;
+	  }
+	}
+      }
+    }
+    
+    trapezoidCtrl(m,&g_md_h[idx],&tc);
   }
+    
+
+
   else{
     g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_0;
     g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_1;
