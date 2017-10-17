@@ -148,7 +148,7 @@ static
 int suspensionSystem(void){
   const tc_const_t tc ={
     .inc_con = 300,//DUTY上限時の傾き
-    .dec_con = 400//　　下限時
+    .dec_con = 500//　　下限時
   };
   const int num_of_motor = 3;/*モータの個数*/
   unsigned int idx;/*インデックス*/
