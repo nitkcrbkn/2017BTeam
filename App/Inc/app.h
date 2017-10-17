@@ -32,6 +32,7 @@ int appInit(void);
 typedef enum{
   OPE_MODE_N,
   OPE_MODE_F,
+  OPE_MODE_M,
 } ope_mode_t;
 
 #define DRIVER_AB_0 0
@@ -54,6 +55,8 @@ typedef enum{
 #define MISSILE_AB_1 (1<<1)
 #define MISSILE_AB_2 (1<<0)
 #define MISSILE_AB_3 (1<<1)
+
+#define DRIVE_MD_MAX_COUUNT 50
 
 #define MD_GAIN ( DD_MD_MAX_DUTY / DD_RC_ANALOG_MAX/3 )
 

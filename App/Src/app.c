@@ -29,10 +29,13 @@ static
 int armchain(void);
 
 static
+int missiledrive(void);
+
+static
 int changeOpeMode(void);
 
 static
-ope_mode_t g_ope_mode = OPE_MODE_N;
+ope_mode_t g_ope_mode = OPE_MODE_M;
 
 static
 int suspensionSystem_F(void);
@@ -80,6 +83,18 @@ int appTask(void){
       return ret;
     }
     break;
+
+  case OPE_MODE_M:
+    ret = missileAB();
+    if(ret){
+      return ret;
+    }
+   
+    ret = missiledrive();
+    if(ret){
+      return ret;
+    }
+    break;
   }
 
   ret = changeOpeMode();
@@ -96,12 +111,7 @@ int appTask(void){
   if(ret){
       return ret;
   }
-  
-  ret = missileAB();
-  if(ret){
-      return ret;
-  }
-    
+      
   ret = armchain();
   if(ret){
     return ret;
@@ -179,105 +189,70 @@ int armchain(void){
 
 /*ミサイル*/
 static
-int missileAB(void){
-
-  const tc_const_t tc ={
-    .inc_con = 300,//DUTY上限時の傾き
-    .dec_con = 400//　　下限時
-  };
-  const int num_of_motor = 3;/*モータの個数*/
-  unsigned int idx;/*インデックス*/
-  int m,i,w;
-  
+int missileAB(void){  
     
   if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data))){
     g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_0;
     g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_1;
     g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_2;
     g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_3;
-
-    for(w=0;w<3;w++){
-      if(w==0){
-	/*for each motor*/
-	for(i=0;i<num_of_motor;i++){
-	  /*それぞれの差分*/
-	  switch(i){
-	  case 0:
-	    idx = MECHA1_MD1;
-	    m = 1500;
-	    break;
-	  case 1:
-	    idx = MECHA1_MD2;
-	    m = -1500;
-	    break;
-	  case 2:
-	    idx = MECHA1_MD3;
-	    m = -1500;
-	    break;
-	  default:
-	    return EXIT_FAILURE;
-	  }
-	}
-      }
-      else if(w==1){
-	for(i=0;i<num_of_motor;i++){
-	  /*それぞれの差分*/
-	  switch(i){
-	  case 0:
-	    idx = MECHA1_MD1;
-	    m = 2500;
-	    break;
-	  case 1:
-	    idx = MECHA1_MD2;
-	    m = -2500;
-	    break;
-	  case 2:
-	    idx = MECHA1_MD3;
-	    m = -2500;
-	    break;
-	  default:
-	    return EXIT_FAILURE;
-	  }
-	}
-      }
-
-      else if(w==2){
-	for(i=0;i<num_of_motor;i++){
-	  /*それぞれの差分*/
-	  switch(i){
-	  case 0:
-	    idx = MECHA1_MD1;
-	    m = 3500;
-	    break;
-	  case 1:
-	    idx = MECHA1_MD2;
-	    m = -3500;
-	    break;
-	  case 2:
-	    idx = MECHA1_MD3;
-	    m = -3500;
-	    break;
-	  default:
-	    return EXIT_FAILURE;
-	  }
-	}
-      }
+  }
+    else{
+      g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_0;
+      g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_1;
+      g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_2;
+      g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_3;
     }
-    
-    trapezoidCtrl(m,&g_md_h[idx],&tc);
-  }
-    
 
-
-  else{
-    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_0;
-    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_1;
-    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_2;
-    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_3;
+    return EXIT_SUCCESS;
   }
 
+static
+int missiledrive(void){
+
+  const tc_const_t tc ={
+    .inc_con = 300,//DUTY上限時の傾き
+    .dec_con = 400//　　下限時
+  };
+  const int num_of_motor = 3;/*モータの個数*/
+  static int push_count =  DRIVE_MD_MAX_COUNT;
+  unsigned int idx;/*インデックス*/
+  int i,m;
+    
+  if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data))){
+    push_count = 0;
+  }
+
+  if(DRIVE_MD_MAX_COUNT > push_count){
+  
+    /*for each motor*/
+    for(i=0;i<num_of_motor;i++){
+      /*それぞれの差分*/
+      switch(i){
+      case 0:
+	idx = MECHA1_MD1;
+	m = 4845;
+	  break;
+      case 1:
+	idx = MECHA1_MD2;
+	m = -2375;
+	  break;
+      case 2:
+	idx = MECHA1_MD3;
+	m = -2375;
+	  break;
+      default:
+	return EXIT_FAILURE;
+      }
+      trapezoidCtrl(m,&g_md_h[idx],&tc);
+    }   
+    push_count++;
+  }
+  
   return EXIT_SUCCESS;
+
 }
+
 
 /*プライベート 足回りシステム*/
 static
@@ -346,6 +321,9 @@ int changeOpeMode(void){
   }
   else if(__RC_ISPRESSED_CROSS(g_rc_data)){
     g_ope_mode = OPE_MODE_F;
+  }
+  else if((__RC_ISPRESSED_SQARE(g_rc_data)) && (__RC_ISPRESSED_UP(g_rc_data))){
+    g_ope_mode = OPE_MODE_M;
   }
 
   return EXIT_SUCCESS;
