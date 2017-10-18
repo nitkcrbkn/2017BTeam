@@ -35,7 +35,7 @@ static
 int changeOpeMode(void);
 
 static
-ope_mode_t g_ope_mode = OPE_MODE_M;
+ope_mode_t g_ope_mode = OPE_MODE_N;
 
 static
 int suspensionSystem_F(void);
@@ -209,46 +209,46 @@ int missileAB(void){
 
 static
 int missiledrive(void){
-
+  
   const tc_const_t tc ={
     .inc_con = 300,//DUTY上限時の傾き
     .dec_con = 400//　　下限時
   };
   const int num_of_motor = 3;/*モータの個数*/
-  static int push_count =  DRIVE_MD_MAX_COUNT;
+  static int push_count = 0;
   unsigned int idx;/*インデックス*/
   int i,m;
     
   if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data))){
-    push_count = 0;
-  }
 
-  if(DRIVE_MD_MAX_COUNT > push_count){
-  
-    /*for each motor*/
-    for(i=0;i<num_of_motor;i++){
-      /*それぞれの差分*/
-      switch(i){
-      case 0:
-	idx = MECHA1_MD1;
-	m = 4845;
+    if(DRIVE_MD_MAX_COUNT > push_count){
+      push_count++;
+    }
+    else if(DRIVE_MD_MAX_COUNT == push_count){
+
+      /*for each motor*/
+      for(i=0;i<num_of_motor;i++){
+	/*それぞれの差分*/
+	switch(i){
+	case 0:
+	  idx = MECHA1_MD1;
+	  m = 4845;
 	  break;
-      case 1:
-	idx = MECHA1_MD2;
-	m = -2375;
+	case 1:
+	  idx = MECHA1_MD2;
+	  m = -2375;
 	  break;
-      case 2:
-	idx = MECHA1_MD3;
-	m = -2375;
+	case 2:
+	  idx = MECHA1_MD3;
+	  m = -2375;
 	  break;
-      default:
-	return EXIT_FAILURE;
-      }
-      trapezoidCtrl(m,&g_md_h[idx],&tc);
-    }   
-    push_count++;
+	default:
+	  return EXIT_FAILURE;
+	}
+	trapezoidCtrl(m,&g_md_h[idx],&tc);
+      }   
+    }
   }
-  
   return EXIT_SUCCESS;
 
 }
@@ -315,17 +315,16 @@ int suspensionSystem(void){
 /*モード変更*/
 static
 int changeOpeMode(void){
-  
+
   if(__RC_ISPRESSED_CIRCLE(g_rc_data)){
     g_ope_mode = OPE_MODE_N;
   }
   else if(__RC_ISPRESSED_CROSS(g_rc_data)){
     g_ope_mode = OPE_MODE_F;
   }
-  else if((__RC_ISPRESSED_SQARE(g_rc_data)) && (__RC_ISPRESSED_UP(g_rc_data))){
+  else if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data))){
     g_ope_mode = OPE_MODE_M;
   }
-
   return EXIT_SUCCESS;
 }
 

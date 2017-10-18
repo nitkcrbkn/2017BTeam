@@ -2,7 +2,7 @@
 #define __APP_H
 
 /*NO Device mode*/
-#define _NO_DEVICE 0
+#define _NO_DEVICE 1
 
 int appTask(void);
 int appInit(void);
@@ -56,7 +56,7 @@ typedef enum{
 #define MISSILE_AB_2 (1<<0)
 #define MISSILE_AB_3 (1<<1)
 
-#define DRIVE_MD_MAX_COUUNT 50
+#define DRIVE_MD_MAX_COUNT 50
 
 #define MD_GAIN ( DD_MD_MAX_DUTY / DD_RC_ANALOG_MAX/3 )
 
