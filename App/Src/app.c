@@ -26,6 +26,9 @@ static
 int missileAB(void);
 
 static
+int missileABrelease(void);
+
+static
 int armchain(void);
 
 static
@@ -74,11 +77,20 @@ int appTask(void){
     ret = suspensionSystem();
     if(ret){
       return ret;
+    } 
+    ret = missileABrelease();
+    if(ret){
+      return ret;
     }
     break;
   
   case OPE_MODE_F:
     ret = suspensionSystem_F();
+    if(ret){
+      return ret;
+    }
+
+    ret = missileABrelease();
     if(ret){
       return ret;
     }
@@ -104,12 +116,12 @@ int appTask(void){
 
   ret = armAB();
   if(ret){
-      return ret;
+    return ret;
   }
     
   ret = moveAB();
   if(ret){
-      return ret;
+    return ret;
   }
       
   ret = armchain();
@@ -197,15 +209,35 @@ int missileAB(void){
     g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_2;
     g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_3;
   }
-    else{
-      g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_0;
-      g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_1;
-      g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_2;
-      g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_3;
-    }
+  else{
+    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_0;
+    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_1;
+    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_2;
+    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_3;
+  }
+
+  return EXIT_SUCCESS;
+}
+
+/*エアー放出*/
+static
+int missileABrelease(void){
+  if((__RC_ISPRESSED_SQARE(g_rc_data)) && (__RC_ISPRESSED_UP(g_rc_data))){
+    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_0;
+    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_1;
+    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_2;
+    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_3;
+  }
+  else{
+    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_0;
+    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_1;
+    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_2;
+    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_3;
+  }
 
     return EXIT_SUCCESS;
-  }
+
+}
 
 static
 int missiledrive(void){
