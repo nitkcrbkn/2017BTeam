@@ -248,7 +248,7 @@ int rinkarm(void){
   if((__RC_ISPRESSED_R1(g_rc_data)) && (__RC_ISPRESSED_R2(g_rc_data))){
     target = 0;
   }else if((__RC_ISPRESSED_R2(g_rc_data)) && !(__RC_ISPRESSED_R1(g_rc_data))){
-    target = -8000;
+    target = -6000;
   }else{
     target = 0;
   }
