@@ -56,7 +56,7 @@ typedef enum{
 #define MISSILE_AB_2 (1<<0)
 #define MISSILE_AB_3 (1<<1)
 
-#define DRIVE_MD_MAX_COUNT 50
+#define DRIVE_MD_MAX_COUNT 20
 
 #define MD_GAIN ( DD_MD_MAX_DUTY / DD_RC_ANALOG_MAX/3 )
 

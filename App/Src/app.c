@@ -268,11 +268,11 @@ int missiledrive(void){
 	  break;
 	case 1:
 	  idx = MECHA1_MD2;
-	  m = -2375;
+	  m = -475;
 	  break;
 	case 2:
 	  idx = MECHA1_MD3;
-	  m = -2375;
+	  m = -4370;
 	  break;
 	default:
 	  return EXIT_FAILURE;
