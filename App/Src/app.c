@@ -32,9 +32,6 @@ static
 int armchain(void);
 
 static
-int missiledrive(void);
-
-static
 int changeOpeMode(void);
 
 static
@@ -95,24 +92,18 @@ int appTask(void){
       return ret;
     }
     break;
-
-  case OPE_MODE_M:
-    ret = missileAB();
-    if(ret){
-      return ret;
-    }
-   
-    ret = missiledrive();
-    if(ret){
-      return ret;
-    }
-    break;
   }
 
   ret = changeOpeMode();
   if(ret){
     return ret;
   }
+
+  ret = missileAB();
+  if(ret){
+    return ret;
+  }
+    
 
   ret = armAB();
   if(ret){
@@ -203,88 +194,125 @@ int armchain(void){
 static
 int missileAB(void){  
   
+  static int count_missile = 0;
+  static int missile_open = 0;
 
-  if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data))){
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_0;
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_1;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_2;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_3;
+  if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data)) && count_missile == 0){
+    if(missile_open < 50){
+      g_ab_h[DRIVER_AB_0].dat |= MISSILE_AB_0;
+      missile_open++;
+    }
+    else{
+      g_ab_h[DRIVER_AB_0].dat &= ~MISSILE_AB_0;
+      count_missile = 1;
+      missile_open = 0;
+    } 
+  }else if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data)) && count_missile == 1){
+    if(missile_open < 50){
+      g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_1;
+      missile_open++;
+    }
+    else{
+      g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_1;
+      count_missile = 2;
+      missile_open = 0;
+    }
+  }else if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data)) && count_missile == 2){
+    if(missile_open < 50){
+      g_ab_h[DRIVER_AB_0].dat |= MISSILE_AB_2;
+      missile_open++;
+    }
+    else{
+      g_ab_h[DRIVER_AB_0].dat &= ~MISSILE_AB_2;
+      count_missile = 3;
+      missile_open = 0;   
+    }
+  }else if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data)) && count_missile == 3){
+    if(missile_open < 50){
+      g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_3;
+      missile_open++;
+    }
+    else{
+      g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_3;
+      count_missile = 4;
+      missile_open = 0;   
+    } 
+  }else if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data)) && count_missile == 4){
+    if(missile_open < 50){
+      g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_4;
+      missile_open++;
+    }
+    else{
+      g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_4;
+      count_missile = 5;
+      missile_open = 0;  
+    } 
+  }else if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data)) && count_missile == 5){
+    if(missile_open < 50){
+      g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_5;
+      missile_open++;
+    }
+    else{
+      g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_5;
+      count_missile = 6;
+      missile_open = 0;   
+    } 
+  }else if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data)) && count_missile == 6){
+    if(missile_open < 50){
+      g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_6;
+      missile_open++;
+    }
+    else{
+      g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_6;
+      count_missile = 7;
+      missile_open = 0;   
+    }
+  }else if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data)) && count_missile == 7){
+    if(missile_open < 50){
+      g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_7;
+      missile_open++;
+    }
+    else{
+      g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_7;   
+    }
   }
-  else{
-    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_0;
-    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_1;
-    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_2;
-    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_3;
+
+  if((__RC_ISPRESSED_SQARE(g_rc_data)) && (__RC_ISPRESSED_UP(g_rc_data))){
+    count_missile = 0;
+    missile_open = 0;
   }
 
   return EXIT_SUCCESS;
-}
+}  
 
 /*エアー放出*/
 static
 int missileABrelease(void){
   if((__RC_ISPRESSED_SQARE(g_rc_data)) && (__RC_ISPRESSED_UP(g_rc_data))){
-    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_0;
+    g_ab_h[DRIVER_AB_0].dat |= MISSILE_AB_0;
     g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_1;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_2;
-    g_ab_h[DRIVER_AB_2].dat |= MISSILE_AB_3;
+    g_ab_h[DRIVER_AB_0].dat |= MISSILE_AB_2;
+    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_3;
+    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_4;
+    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_5;
+    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_6;
+    g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_7;
   }
   else{
-    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_0;
+    g_ab_h[DRIVER_AB_0].dat &= ~MISSILE_AB_0;
     g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_1;
-    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_2;
-    g_ab_h[DRIVER_AB_2].dat &= ~MISSILE_AB_3;
+    g_ab_h[DRIVER_AB_0].dat &= ~MISSILE_AB_2;
+    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_3;
+    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_4;
+    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_5;
+    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_6;
+    g_ab_h[DRIVER_AB_1].dat &= ~MISSILE_AB_7;
   }
 
     return EXIT_SUCCESS;
 
 }
 
-static
-int missiledrive(void){
-  
-  const tc_const_t tc ={
-    .inc_con = 150,//DUTY上限時の傾き
-    .dec_con = 400//　　下限時
-  };
-  const int num_of_motor = 3;/*モータの個数*/
-  static int push_count = 0;
-  unsigned int idx;/*インデックス*/
-  int i,m;
-    
-  if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data))){
-
-    if(DRIVE_MD_MAX_COUNT > push_count){
-      push_count++;
-    }
-    else if(DRIVE_MD_MAX_COUNT == push_count){
-
-      /*for each motor*/
-      for(i=0;i<num_of_motor;i++){
-	/*それぞれの差分*/
-	switch(i){
-	case 0:
-	  idx = MECHA1_MD1;
-	  m = 2375;
-	  break;
-	case 1:
-	  idx = MECHA1_MD2;
-	  m = 665;
-	  break;
-	case 2:
-	  idx = MECHA1_MD3;
-	  m = -3040;
-	  break;
-	default:
-	  return EXIT_FAILURE;
-	}
-	trapezoidCtrl(m,&g_md_h[idx],&tc);
-      }   
-    }
-  }
-  return EXIT_SUCCESS;
-
-}
 
 
 /*プライベート 足回りシステム*/
@@ -354,9 +382,6 @@ int changeOpeMode(void){
   }
   else if(__RC_ISPRESSED_CROSS(g_rc_data)){
     g_ope_mode = OPE_MODE_F;
-  }
-  else if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data))){
-    g_ope_mode = OPE_MODE_M;
   }
   return EXIT_SUCCESS;
 }

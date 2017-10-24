@@ -29,9 +29,6 @@ DD_ABHand_t g_ab_h[DD_NUM_OF_AB] = {
   { .add = 0x22, /* address */
     .dat = 0x00, /* data */
   },              
-  { .add = 0x23, /* address */
-    .dat = 0x00, /* data */
-  },              
 };
 #endif
 #if DD_NUM_OF_SV
