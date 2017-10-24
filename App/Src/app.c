@@ -202,7 +202,8 @@ int armchain(void){
 /*ミサイル*/
 static
 int missileAB(void){  
-    
+  
+
   if((__RC_ISPRESSED_R2(g_rc_data)) && (__RC_ISPRESSED_L2(g_rc_data))){
     g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_0;
     g_ab_h[DRIVER_AB_1].dat |= MISSILE_AB_1;
@@ -243,7 +244,7 @@ static
 int missiledrive(void){
   
   const tc_const_t tc ={
-    .inc_con = 300,//DUTY上限時の傾き
+    .inc_con = 150,//DUTY上限時の傾き
     .dec_con = 400//　　下限時
   };
   const int num_of_motor = 3;/*モータの個数*/
@@ -264,15 +265,15 @@ int missiledrive(void){
 	switch(i){
 	case 0:
 	  idx = MECHA1_MD1;
-	  m = 4845;
+	  m = 2375;
 	  break;
 	case 1:
 	  idx = MECHA1_MD2;
-	  m = -475;
+	  m = 665;
 	  break;
 	case 2:
 	  idx = MECHA1_MD3;
-	  m = -4370;
+	  m = -3040;
 	  break;
 	default:
 	  return EXIT_FAILURE;
